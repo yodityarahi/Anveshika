@@ -1,0 +1,905 @@
+/* =================================================================
+   BHARAT QUEST - HERITAGE GUIDE & PERSONALIZATION STYLES
+   Curatorial Intelligence, Personalized Missions & Knowledge Matrix
+   ================================================================= */
+
+/* 1. Dashboard AI Recommendation Hero Card */
+.ai-recommendation-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(30, 24, 20, 0.95) 0%, rgba(20, 16, 14, 0.98) 100%);
+  border: 1.5px solid var(--color-terracotta-gold, #E9C46A);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.ai-recommendation-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #E9C46A 0%, #2EC4B6 100%);
+}
+
+.ai-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.ai-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ai-algo-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(46, 196, 182, 0.15);
+  border: 1px solid rgba(46, 196, 182, 0.4);
+  color: #2EC4B6;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.ai-confidence-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: rgba(233, 196, 106, 0.15);
+  border: 1px solid rgba(233, 196, 106, 0.4);
+  color: var(--color-terracotta-gold, #E9C46A);
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.ai-rec-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  color: #FFF8EE;
+  margin: 0 0 6px 0;
+}
+
+.ai-rec-reason {
+  font-size: 0.9rem;
+  color: #D4A373;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  background: rgba(10, 8, 7, 0.5);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border-left: 3px solid var(--color-terracotta-gold, #E9C46A);
+}
+
+.ai-rec-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ai-disclaimer-text {
+  font-size: 0.72rem;
+  color: #8C7E74;
+  font-style: italic;
+}
+
+/* 2. Adaptive Difficulty Widget */
+.difficulty-widget {
+  background: rgba(18, 14, 12, 0.75);
+  border: 1px solid rgba(212, 163, 115, 0.25);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 18px;
+}
+
+.diff-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.diff-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.diff-badge.Easy { background: rgba(42, 157, 143, 0.2); color: #2EC4B6; border: 1px solid #2EC4B6; }
+.diff-badge.Medium { background: rgba(233, 196, 106, 0.2); color: #E9C46A; border: 1px solid #E9C46A; }
+.diff-badge.Hard { background: rgba(231, 111, 81, 0.2); color: #E76F51; border: 1px solid #E76F51; }
+
+.diff-factors-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.diff-factor-chip {
+  background: rgba(255,255,255,0.06);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #D4A373;
+}
+
+.diff-guidance {
+  font-size: 0.8rem;
+  color: #C5BCB4;
+  font-style: italic;
+  margin: 0;
+}
+
+/* 3. 5-Pillar Harappan Knowledge Matrix */
+.knowledge-matrix-container {
+  background: linear-gradient(135deg, rgba(28, 20, 16, 0.9) 0%, rgba(18, 14, 12, 0.95) 100%);
+  border: 1px solid rgba(212, 163, 115, 0.3);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 25px;
+}
+
+.knowledge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.knowledge-pillar-card {
+  background: rgba(14, 10, 8, 0.7);
+  border: 1px solid rgba(212, 163, 115, 0.2);
+  border-radius: 10px;
+  padding: 14px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.knowledge-pillar-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-terracotta-gold, #E9C46A);
+}
+
+.pillar-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.pillar-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #FFF8EE;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pillar-status-tag {
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(233, 196, 106, 0.15);
+  color: #E9C46A;
+  font-weight: 700;
+}
+
+.pillar-desc {
+  font-size: 0.72rem;
+  color: #B5A89E;
+  margin: 6px 0 8px 0;
+  line-height: 1.35;
+}
+
+/* =================================================================
+   4. DEDICATED HERITAGE GUIDE VIEW (TAB AI)
+   ================================================================= */
+.heritage-guide-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Curator Hero Card */
+.heritage-curator-hero {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(135deg, rgba(38, 28, 22, 0.95) 0%, rgba(22, 16, 13, 0.98) 100%);
+  border: 1.5px solid var(--color-terracotta-gold, #E9C46A);
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.curator-avatar-badge {
+  font-size: 3rem;
+  background: rgba(233, 196, 106, 0.15);
+  border: 2px solid var(--color-terracotta-gold, #E9C46A);
+  width: 76px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.curator-meta {
+  flex: 1;
+}
+
+.curator-tag-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.curator-role-tag {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 800;
+  color: var(--color-terracotta-gold, #E9C46A);
+}
+
+.curator-standing-pill {
+  font-size: 0.72rem;
+  background: rgba(46, 196, 182, 0.15);
+  border: 1px solid rgba(46, 196, 182, 0.4);
+  color: #2EC4B6;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.curator-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  color: #FFF8EE;
+  margin: 0 0 6px 0;
+}
+
+.curator-intro {
+  font-size: 0.88rem;
+  color: #D4A373;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.curator-stat-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 10, 8, 0.7);
+  border: 1px solid rgba(212, 163, 115, 0.3);
+  border-radius: 12px;
+  padding: 12px 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.mini-stat-val {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #2EC4B6;
+  line-height: 1;
+}
+
+.mini-stat-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: #B5A89E;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+/* Mission & Fieldwork Grid */
+.heritage-mission-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.heritage-mission-card {
+  background: linear-gradient(135deg, rgba(28, 22, 18, 0.95) 0%, rgba(18, 14, 11, 0.98) 100%);
+  border: 1.5px solid var(--color-terracotta-gold, #E9C46A);
+  border-radius: 14px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mission-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.mission-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #E9C46A;
+  letter-spacing: 0.5px;
+}
+
+.mission-conf-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #2EC4B6;
+  background: rgba(46, 196, 182, 0.15);
+  border: 1px solid rgba(46, 196, 182, 0.4);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.mission-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  color: #FFF8EE;
+  margin: 6px 0;
+}
+
+.mission-domain-pill {
+  font-size: 0.75rem;
+  color: #D4A373;
+  margin-bottom: 12px;
+}
+
+.mission-rationale {
+  font-size: 0.85rem;
+  color: #E2D9D2;
+  line-height: 1.45;
+  background: rgba(12, 9, 8, 0.6);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border-left: 3px solid #E9C46A;
+  margin-bottom: 18px;
+}
+
+.mission-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.mission-subtext {
+  font-size: 0.7rem;
+  color: #8C7E74;
+}
+
+/* Fieldwork Card */
+.heritage-fieldwork-card {
+  background: rgba(22, 17, 14, 0.95);
+  border: 1px solid rgba(212, 163, 115, 0.35);
+  border-radius: 14px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.fieldwork-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.fieldwork-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  color: #FFF8EE;
+  font-weight: 700;
+}
+
+.fieldwork-desc {
+  font-size: 0.82rem;
+  color: #D4A373;
+  line-height: 1.4;
+  margin: 0 0 14px 0;
+}
+
+.fieldwork-perks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.fieldwork-perk-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #E2D9D2;
+  background: rgba(10, 8, 7, 0.5);
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.perk-icon {
+  font-size: 1rem;
+}
+
+.fieldwork-guidance {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #B5A89E;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 10px;
+}
+
+/* 4. Curatorial Insights & Q&A */
+.heritage-insights-section {
+  background: rgba(18, 14, 11, 0.85);
+  border: 1px solid rgba(212, 163, 115, 0.25);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.insights-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.insights-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  color: #FFF8EE;
+  margin: 0 0 4px 0;
+}
+
+.insights-subtitle {
+  font-size: 0.82rem;
+  color: #D4A373;
+  margin: 0;
+}
+
+.insights-search-box input {
+  background: rgba(10, 8, 7, 0.8);
+  border: 1px solid rgba(212, 163, 115, 0.4);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  color: #FFF8EE;
+  width: 280px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.insights-search-box input:focus {
+  border-color: #E9C46A;
+  box-shadow: 0 0 10px rgba(233, 196, 106, 0.25);
+}
+
+.insights-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.heritage-insight-card {
+  background: rgba(24, 18, 15, 0.9);
+  border: 1px solid rgba(212, 163, 115, 0.25);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.heritage-insight-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-terracotta-gold, #E9C46A);
+}
+
+.insight-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.insight-icon-circle {
+  font-size: 1.6rem;
+  background: rgba(233, 196, 106, 0.12);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.insight-topic-meta {
+  flex: 1;
+}
+
+.insight-topic-tag {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: #2EC4B6;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.insight-card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.98rem;
+  color: #FFF8EE;
+  margin: 2px 0 0 0;
+}
+
+.insight-question-box {
+  background: rgba(14, 10, 8, 0.6);
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.q-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: #E9C46A;
+  font-weight: 800;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.q-text {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #E2D9D2;
+  margin: 0;
+}
+
+.insight-answer-box {
+  flex: 1;
+  margin-bottom: 10px;
+}
+
+.a-text {
+  font-size: 0.8rem;
+  color: #C5BCB4;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.insight-field-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  background: rgba(46, 196, 182, 0.08);
+  border-left: 2px solid #2EC4B6;
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.tip-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.tip-text {
+  font-size: 0.72rem;
+  color: #B2D8D8;
+  line-height: 1.35;
+}
+
+.insight-footer-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.insight-empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 30px;
+  color: #8C7E74;
+  font-size: 0.88rem;
+}
+
+/* =================================================================
+   HERITAGE GUIDE INTERACTIVE CHATBOT (BHARAT QUEST REDESIGN)
+   ================================================================= */
+.heritage-chat-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.heritage-guide-hero {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: linear-gradient(135deg, rgba(32, 24, 20, 0.95), rgba(18, 14, 12, 0.95));
+  border: 1.5px solid rgba(233, 196, 106, 0.4);
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.guide-avatar-ring {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #3A86FF 0%, #1D4ED8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 0 16px rgba(58, 134, 255, 0.4);
+  flex-shrink: 0;
+}
+
+.guide-hero-text h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.35rem;
+  color: #FFF8EE;
+  margin: 0 0 4px 0;
+}
+
+.guide-hero-text p {
+  color: #C5BCB4;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Guide Recommendation Card */
+.guide-rec-card {
+  background: linear-gradient(135deg, rgba(46, 196, 182, 0.12), rgba(20, 16, 14, 0.85));
+  border: 1px solid rgba(46, 196, 182, 0.4);
+  border-radius: 14px;
+  padding: 16px 20px;
+}
+
+.rec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.rec-badge {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #2EC4B6;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rec-quest-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.rec-quest-box h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  color: #FFF;
+  margin: 0 0 4px 0;
+}
+
+.rec-quest-box p {
+  font-size: 0.84rem;
+  color: #D4A373;
+  margin: 0;
+}
+
+/* Quick Chips Shelf */
+.heritage-chips-shelf {
+  background: rgba(20, 15, 12, 0.9);
+  border: 1px solid rgba(233, 196, 106, 0.25);
+  border-radius: 14px;
+  padding: 16px 20px;
+}
+
+.shelf-title,
+.chips-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #E9C46A;
+  margin-bottom: 10px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quick-chips-grid,
+.heritage-chips-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.quick-chip {
+  background: rgba(42, 28, 20, 0.9);
+  border: 1px solid rgba(233, 196, 106, 0.35);
+  border-radius: 20px;
+  padding: 6px 14px;
+  color: #FFF8EE;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.quick-chip:hover {
+  background: rgba(233, 196, 106, 0.2);
+  border-color: #E9C46A;
+  transform: translateY(-1px);
+}
+
+/* Main Heritage Chat Card */
+.heritage-chat-card {
+  background: rgba(18, 13, 10, 0.95);
+  border: 1.5px solid rgba(233, 196, 106, 0.35);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  height: 480px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.heritage-chat-messages {
+  flex: 1;
+  padding: 18px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.chat-message-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  max-width: 85%;
+}
+
+.chat-message-row.guide-row {
+  align-self: flex-start;
+}
+
+.chat-message-row.user-row {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.chat-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(233, 196, 106, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  border: 1px solid rgba(233, 196, 106, 0.4);
+}
+
+.chat-bubble {
+  border-radius: 14px;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.guide-bubble {
+  background: linear-gradient(135deg, #251B15, #1E1612);
+  border: 1px solid rgba(233, 196, 106, 0.3);
+  color: #F8F9FA;
+  border-top-left-radius: 4px;
+}
+
+.user-bubble {
+  background: linear-gradient(135deg, #C05A3E, #A03B26);
+  color: #FFF;
+  border: 1px solid rgba(233, 196, 106, 0.35);
+  border-top-right-radius: 4px;
+}
+
+.chat-text {
+  margin: 0;
+}
+
+.chat-didyouknow {
+  margin-top: 10px;
+  background: rgba(245, 158, 11, 0.12);
+  border-left: 3px solid #F59E0B;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  color: #FDE68A;
+}
+
+.chat-action-btn {
+  background: linear-gradient(135deg, #2EC4B6, #1F8A80);
+  color: #FFF;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.chat-action-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Chat Input Bar */
+.heritage-chat-input-bar {
+  display: flex;
+  gap: 10px;
+  padding: 14px 18px;
+  background: rgba(12, 8, 6, 0.98);
+  border-top: 1px solid rgba(233, 196, 106, 0.25);
+}
+
+.heritage-chat-input-bar input {
+  flex: 1;
+  background: rgba(28, 20, 16, 0.9);
+  border: 1px solid rgba(233, 196, 106, 0.3);
+  border-radius: 10px;
+  padding: 10px 16px;
+  color: #FFF;
+  font-size: 0.9rem;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.heritage-chat-input-bar input:focus {
+  border-color: #E9C46A;
+  box-shadow: 0 0 8px rgba(233, 196, 106, 0.3);
+}

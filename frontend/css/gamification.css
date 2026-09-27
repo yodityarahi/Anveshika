@@ -1,0 +1,622 @@
+/* =================================================================
+   BHARAT QUEST - PHASE 8: GAMIFICATION & PROGRESSION STYLES
+   Level-Up Celebration, Badges Showcase, Progress Rings & Perks
+   ================================================================= */
+
+/* -------------------------------------------------------------
+   1. LEVEL UP CELEBRATION MODAL
+   ------------------------------------------------------------- */
+.level-up-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 8, 7, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.level-up-modal-backdrop.active {
+  display: flex;
+  animation: levelModalFadeIn 0.4s ease-out forwards;
+}
+
+@keyframes levelModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.level-up-card {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  background: linear-gradient(175deg, #241A15 0%, #15100E 100%);
+  border: 2px solid var(--color-terracotta-gold, #E9C46A);
+  border-radius: 18px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(233, 196, 106, 0.35), 0 25px 50px rgba(0,0,0,0.8);
+  overflow: hidden;
+  animation: levelCardPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes levelCardPop {
+  0% { transform: scale(0.7) translateY(40px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Background Golden Rays */
+.level-up-rays {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(233, 196, 106, 0.12) 0%, transparent 65%);
+  animation: rotateRays 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotateRays {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.level-crest-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.level-crest-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px dashed var(--color-terracotta-gold, #E9C46A);
+  animation: spinCrestRing 15s linear infinite;
+}
+
+@keyframes spinCrestRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.level-crest-inner {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #D4A373 0%, #A64B2A 70%, #6E260E 100%);
+  border: 3px solid #FFF8EE;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 25px rgba(233, 196, 106, 0.8);
+}
+
+.level-crest-number {
+  font-family: 'Cinzel', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #FFF8EE;
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+.level-crest-lbl {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 800;
+  color: #E9C46A;
+}
+
+.level-banner-tag {
+  display: inline-block;
+  padding: 4px 16px;
+  background: rgba(233, 196, 106, 0.15);
+  border: 1px solid var(--color-terracotta-gold, #E9C46A);
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-terracotta-gold, #E9C46A);
+  margin-bottom: 12px;
+}
+
+.level-up-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #FFF8EE;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.level-up-desc {
+  font-size: 0.95rem;
+  color: var(--color-sandstone, #D4A373);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+/* Unlocked Perks Panel */
+.level-perks-box {
+  background: rgba(18, 14, 12, 0.7);
+  border: 1px solid rgba(233, 196, 106, 0.25);
+  border-radius: 12px;
+  padding: 16px 20px;
+  text-align: left;
+  margin-bottom: 26px;
+}
+
+.level-perks-header {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-terracotta-gold, #E9C46A);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.level-perk-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: #E2D9D2;
+  margin-bottom: 8px;
+}
+
+.level-perk-item:last-child {
+  margin-bottom: 0;
+}
+
+.level-perk-check {
+  color: #2EC4B6;
+  font-weight: bold;
+}
+
+/* -------------------------------------------------------------
+   2. OVERALL MASTERY PROGRESS RING & BREAKDOWN WIDGET
+   ------------------------------------------------------------- */
+.mastery-overview-card {
+  background: linear-gradient(135deg, rgba(38, 28, 24, 0.9) 0%, rgba(22, 17, 15, 0.95) 100%);
+  border: 1px solid rgba(233, 196, 106, 0.3);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.mastery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.mastery-title-group h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  color: var(--color-terracotta-gold, #E9C46A);
+  margin: 0 0 4px 0;
+}
+
+.mastery-title-group p {
+  font-size: 0.82rem;
+  color: var(--color-sandstone, #D4A373);
+  margin: 0;
+}
+
+.mastery-badge-counter {
+  background: rgba(233, 196, 106, 0.12);
+  border: 1px solid var(--color-terracotta-gold, #E9C46A);
+  border-radius: 8px;
+  padding: 6px 14px;
+  text-align: center;
+}
+
+.mastery-badge-val {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #FFF8EE;
+}
+
+.mastery-badge-lbl {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: var(--color-sandstone, #D4A373);
+  letter-spacing: 1px;
+}
+
+/* 3-Pillar Progress Grid */
+.mastery-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 15px;
+}
+
+.mastery-pillar-box {
+  background: rgba(18, 14, 12, 0.6);
+  border: 1px solid rgba(212, 163, 115, 0.2);
+  border-radius: 10px;
+  padding: 14px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.mastery-pillar-box:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-terracotta-gold, #E9C46A);
+}
+
+.pillar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.pillar-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #FFF8EE;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pillar-ratio {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--color-terracotta-gold, #E9C46A);
+}
+
+.pillar-bar-bg {
+  width: 100%;
+  height: 8px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.pillar-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pillar-bar-quests { background: linear-gradient(90deg, #E76F51, #F4A261); }
+.pillar-bar-artifacts { background: linear-gradient(90deg, #2A9D8F, #2EC4B6); }
+.pillar-bar-locations { background: linear-gradient(90deg, #E9C46A, #FFB703); }
+
+.pillar-weight-text {
+  font-size: 0.7rem;
+  color: rgba(212, 163, 115, 0.8);
+  text-align: right;
+}
+
+/* -------------------------------------------------------------
+   3. INTERACTIVE BADGES SHOWCASE
+   ------------------------------------------------------------- */
+.badges-showcase-container {
+  margin-top: 25px;
+}
+
+.badges-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.badge-filter-btn {
+  background: rgba(30, 22, 18, 0.8);
+  border: 1px solid rgba(212, 163, 115, 0.3);
+  color: var(--color-sandstone, #D4A373);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.badge-filter-btn.active, .badge-filter-btn:hover {
+  background: var(--color-terracotta-gold, #E9C46A);
+  color: #120E0C;
+  border-color: var(--color-terracotta-gold, #E9C46A);
+  font-weight: 700;
+}
+
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+}
+
+.badge-item-card {
+  position: relative;
+  background: linear-gradient(145deg, #221A15 0%, #17110F 100%);
+  border: 1.5px solid rgba(212, 163, 115, 0.25);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
+
+.badge-item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+/* Unlocked Badge Styling */
+.badge-item-card.unlocked {
+  border-color: var(--color-terracotta-gold, #E9C46A);
+  box-shadow: 0 0 16px rgba(233, 196, 106, 0.15);
+}
+
+.badge-item-card.unlocked::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, transparent 50%, rgba(233, 196, 106, 0.35) 50%);
+  border-top-right-radius: 10px;
+}
+
+/* Locked Badge Styling */
+.badge-item-card.locked {
+  opacity: 0.68;
+  filter: grayscale(0.5);
+  border-style: dashed;
+}
+
+.badge-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.badge-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #382820 0%, #1E1512 100%);
+  border: 2px solid var(--color-terracotta-gold, #E9C46A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.badge-item-card.locked .badge-icon-box {
+  border-color: #55443B;
+  background: #191412;
+}
+
+.badge-meta {
+  flex: 1;
+}
+
+.badge-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #FFF8EE;
+  margin: 0 0 3px 0;
+  line-height: 1.2;
+}
+
+.badge-category {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-sandstone, #D4A373);
+  font-weight: 700;
+}
+
+.badge-desc {
+  font-size: 0.78rem;
+  color: #C5BCB4;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.badge-criteria-box {
+  background: rgba(10, 8, 7, 0.5);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.72rem;
+  color: var(--color-sandstone, #D4A373);
+  margin-bottom: 8px;
+}
+
+.badge-criteria-box strong {
+  color: #E9C46A;
+}
+
+.badge-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.badge-status-pill.earned {
+  background: rgba(46, 196, 182, 0.18);
+  color: #2EC4B6;
+  border: 1px solid rgba(46, 196, 182, 0.4);
+}
+
+.badge-status-pill.locked-pill {
+  background: rgba(180, 80, 60, 0.18);
+  color: #E76F51;
+  border: 1px solid rgba(231, 111, 81, 0.4);
+}
+
+/* -------------------------------------------------------------
+   4. MILESTONES & LEVEL ROADMAP
+   ------------------------------------------------------------- */
+.milestones-roadmap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.milestone-step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(28, 20, 16, 0.75);
+  border: 1px solid rgba(212, 163, 115, 0.2);
+  border-radius: 12px;
+  padding: 14px 18px;
+  position: relative;
+}
+
+.milestone-step.achieved {
+  border-color: var(--color-terracotta-gold, #E9C46A);
+  background: linear-gradient(90deg, rgba(233, 196, 106, 0.08) 0%, rgba(28, 20, 16, 0.8) 100%);
+}
+
+.milestone-step.current {
+  border: 2px solid var(--color-terracotta-gold, #E9C46A);
+  box-shadow: 0 0 20px rgba(233, 196, 106, 0.25);
+}
+
+.milestone-lvl-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #1A1310;
+  border: 2px solid var(--color-terracotta-gold, #E9C46A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #FFF8EE;
+  flex-shrink: 0;
+}
+
+.milestone-step.achieved .milestone-lvl-circle {
+  background: var(--color-terracotta-gold, #E9C46A);
+  color: #120E0C;
+}
+
+.milestone-details {
+  flex: 1;
+}
+
+.milestone-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #FFF8EE;
+  margin-bottom: 2px;
+}
+
+.milestone-xp {
+  font-size: 0.75rem;
+  color: var(--color-sandstone, #D4A373);
+}
+
+.milestone-perks-list {
+  font-size: 0.75rem;
+  color: #B5A89E;
+  margin-top: 4px;
+}
+
+/* -------------------------------------------------------------
+   5. SECRET ARCHIVE MODAL (LEVEL 4/5 UNLOCK)
+   ------------------------------------------------------------- */
+.secret-archive-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 8, 7, 0.92);
+  backdrop-filter: blur(10px);
+  z-index: 10001;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.secret-archive-modal.active {
+  display: flex;
+  animation: levelModalFadeIn 0.3s ease-out forwards;
+}
+
+.secret-archive-card {
+  width: 100%;
+  max-width: 640px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: linear-gradient(175deg, #241A14 0%, #15100D 100%);
+  border: 2px solid #E9C46A;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 0 50px rgba(233, 196, 106, 0.3);
+}
+
+.archive-entry-card {
+  background: rgba(18, 14, 12, 0.8);
+  border: 1px solid rgba(233, 196, 106, 0.25);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.archive-entry-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  color: #E9C46A;
+  margin-bottom: 6px;
+}
+
+.archive-entry-finding {
+  font-size: 0.85rem;
+  color: #E2D9D2;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.archive-entry-insight {
+  font-size: 0.78rem;
+  color: #2EC4B6;
+  font-style: italic;
+}

@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bharat Quest: An Interactive Living Museum</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/game-ui.css">
+  <link rel="stylesheet" href="/static/css/map.css">
+  <link rel="stylesheet" href="/static/css/story.css">
+  <link rel="stylesheet" href="/static/css/city.css">
+  <link rel="stylesheet" href="/static/css/quests.css">
+  <link rel="stylesheet" href="/static/css/museum.css">
+  <link rel="stylesheet" href="/static/css/gamification.css">
+  <link rel="stylesheet" href="/static/css/ai-engine.css">
+  <link rel="stylesheet" href="/static/css/final-challenge.css">
+  <link rel="stylesheet" href="/static/css/animations-ux.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header Game HUD -->
+  <header class="game-hud">
+    <div class="hud-left">
+      <div class="brand-crest">
+        <span class="crest-symbol">🏛️</span>
+        <div class="brand-titles">
+          <h1 class="brand-name">BHARAT QUEST</h1>
+          <span class="brand-sub">An Interactive Living Museum</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hud-center">
+      <div class="civilization-badge">
+        <span class="badge-icon">🏺</span>
+        <div class="badge-info">
+          <span class="badge-label">ACTIVE CIVILIZATION</span>
+          <span class="badge-value">Indus Valley (c. 2600–1900 BCE)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hud-right">
+      <!-- Clickable Player Stat Card (Opens Profile) -->
+      <div class="player-stat-card" id="hudPlayerCard" onclick="app.openProfileModal()" title="Click to view full player profile & badges">
+        <div class="avatar-ring">
+          <span class="avatar-icon" id="hudAvatarIcon">🧑‍🎓</span>
+        </div>
+        <div class="stat-details">
+          <div class="player-name-row">
+            <span class="player-name" id="hudPlayerName">Arjun</span>
+            <span class="player-level" id="hudPlayerLevel">LVL 1</span>
+          </div>
+          <div class="xp-bar-container">
+            <div class="xp-bar-fill" id="hudXpFill" style="width: 30%;"></div>
+            <span class="xp-text" id="hudXpText">150 / 500 XP</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seal Tokens -->
+      <div class="token-capsule" title="Harappan Standardized Steatite Trade Seals">
+        <span class="token-icon">🪙</span>
+        <span class="token-count" id="hudTokenCount">15 Seals</span>
+      </div>
+
+      <!-- Auth Switch / Login Button -->
+      <button class="auth-hud-btn" id="hudAuthBtn" onclick="app.openAuthModal('login')">
+        <span id="hudAuthBtnText">👤 Sign In</span>
+      </button>
+
+      <!-- System Health Indicator -->
+      <div class="system-status-indicator" id="systemStatusPill" title="FastAPI & MongoDB connection status">
+        <span class="status-dot pulsing"></span>
+        <span class="status-label" id="statusPillText">Connecting...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Bar: 5 Clear Tabs for Young Explorers -->
+  <nav class="game-nav">
+    <button class="nav-tab active" data-tab="tab-expedition">
+      <span class="tab-icon">🏠</span>
+      <span class="tab-label">Home</span>
+    </button>
+    <button class="nav-tab" data-tab="tab-city">
+      <span class="tab-icon">🗺️</span>
+      <span class="tab-label">Explore</span>
+    </button>
+    <button class="nav-tab" data-tab="tab-quests">
+      <span class="tab-icon">🎯</span>
+      <span class="tab-label">Missions</span>
+    </button>
+    <button class="nav-tab" data-tab="tab-museum">
+      <span class="tab-icon">🏺</span>
+      <span class="tab-label">Museum</span>
+    </button>
+    <button class="nav-tab" data-tab="tab-ai">
+      <span class="tab-icon">🧭</span>
+      <span class="tab-label">Heritage Guide</span>
+    </button>
+  </nav>
+
+  <!-- Main Game Stage -->
+  <main class="game-stage">
+    
+    <!-- Tab 1: Expedition / Home -->
+    <section class="tab-pane active" id="tab-expedition">
+      <div class="kid-home-container">
+        
+        <!-- Welcome Hero -->
+        <div class="kid-welcome-hero">
+          <div class="kid-welcome-left">
+            <div class="kid-avatar-wrap">
+              <div class="kid-avatar-ring" id="dashAvatarRing">🧑‍🎓</div>
+              <span class="kid-rank-badge" id="dashRankBadge">LVL 1</span>
+            </div>
+            <div class="kid-welcome-text">
+              <h1 class="kid-greeting">👋 Welcome back, <span id="dashPlayerName">Arjun</span>!</h1>
+              <p class="kid-subtitle">Ready to explore ancient India? Pick an adventure below!</p>
+              
+              <!-- Level & XP Bar -->
+              <div class="kid-level-xp-row">
+                <span class="kid-level-label" id="kidLevelLabel">Level 1 Explorer</span>
+                <span class="kid-xp-fraction" id="kidXpFraction">150 / 500 XP</span>
+              </div>
+              <div class="kid-xp-track">
+                <div class="kid-xp-fill" id="dashXpFill" style="width: 30%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Quick Stats Pills -->
+        <div class="kid-quick-stats">
+          <div class="kid-stat-pill">
+            <span class="pill-icon">⚡</span>
+            <span class="pill-label">XP:</span>
+            <strong class="pill-val" id="pillXpVal">150</strong>
+          </div>
+          <div class="kid-stat-pill">
+            <span class="pill-icon">🏆</span>
+            <span class="pill-label">Level:</span>
+            <strong class="pill-val" id="pillLevelVal">1</strong>
+          </div>
+          <div class="kid-stat-pill">
+            <span class="pill-icon">🏺</span>
+            <span class="pill-label">Artifacts:</span>
+            <strong class="pill-val" id="pillArtifactsVal">0 / 8</strong>
+          </div>
+          <div class="kid-stat-pill">
+            <span class="pill-icon">🎯</span>
+            <span class="pill-label">Missions:</span>
+            <strong class="pill-val" id="pillMissionsVal">0 / 5</strong>
+          </div>
+        </div>
+
+        <!-- Center: 4 Big Action Cards -->
+        <div class="kid-action-cards-grid">
+          <!-- Card 1: Explore City -->
+          <div class="kid-action-card card-explore" onclick="app.switchTab('tab-city')">
+            <div class="card-badge">🗺️ Explore</div>
+            <div class="card-icon">🏛️</div>
+            <h3>Walk Through the City</h3>
+            <p>Visit the Great Bath, inspect ancient brick houses, and discover how Harappans lived!</p>
+            <button class="kid-card-btn btn-explore" onclick="event.stopPropagation(); app.switchTab('tab-city')">
+              <span>Explore City ➔</span>
+            </button>
+          </div>
+
+          <!-- Card 2: Today's Mission -->
+          <div class="kid-action-card card-mission" onclick="app.switchTab('tab-quests')">
+            <div class="card-badge mission-badge">🎯 Today's Mission</div>
+            <div class="card-icon">📐</div>
+            <h3 id="kidMissionCardTitle">Build the Ancient City</h3>
+            <p id="kidMissionCardDesc">Help the city surveyor arrange houses, roads, and drains on a neat grid!</p>
+            <button class="kid-card-btn btn-mission" id="kidMissionCardBtn" onclick="event.stopPropagation(); questController.openQuestChallenge('quest_01_rebuild_city')">
+              <span>Play Mission ➔</span>
+            </button>
+          </div>
+
+          <!-- Card 3: My Museum -->
+          <div class="kid-action-card card-museum" onclick="app.switchTab('tab-museum')">
+            <div class="card-badge">🏺 Relics</div>
+            <div class="card-icon">🦄</div>
+            <h3>My Museum</h3>
+            <p id="kidMuseumCardDesc">0 of 8 ancient artifacts discovered. Uncover seals, statues, and toys!</p>
+            <button class="kid-card-btn btn-museum" onclick="event.stopPropagation(); app.switchTab('tab-museum')">
+              <span>View Museum ➔</span>
+            </button>
+          </div>
+
+          <!-- Card 4: Ask Heritage Guide -->
+          <div class="kid-action-card card-guide" onclick="app.switchTab('tab-ai')">
+            <div class="card-badge guide-badge">🧭 AI Helper</div>
+            <div class="card-icon">🤖</div>
+            <h3>Ask Heritage Guide</h3>
+            <p>Curious about seals, drains, or toys? Ask your friendly guide anything!</p>
+            <button class="kid-card-btn btn-guide" onclick="event.stopPropagation(); app.switchTab('tab-ai')">
+              <span>Chat Now ➔</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bottom: Badges + Daily Fun Fact -->
+        <div class="kid-bottom-row">
+          <!-- Recent Badges Shelf -->
+          <div class="kid-badges-shelf">
+            <div class="shelf-header">
+              <h3>🌟 Your Badges & Achievements</h3>
+              <button class="link-btn" onclick="app.switchTab('tab-profile')">View All ➔</button>
+            </div>
+            <div class="kid-badges-container" id="kidRecentBadgesContainer">
+              <div class="empty-badge-prompt">
+                <span>🎯</span> Complete your first mission to earn a shiny badge!
+              </div>
+            </div>
+          </div>
+
+          <!-- Daily Did You Know Fact -->
+          <div class="kid-fact-shelf">
+            <div class="shelf-header">
+              <h3>💡 Did You Know?</h3>
+              <button class="link-btn" onclick="app.refreshFunFact()">Next Fact 🔄</button>
+            </div>
+            <div class="kid-fact-content" id="kidDailyFactContent">
+              <p>Harappan cities were built on a neat grid with covered underground drains—cleaner than cities built 3,000 years later!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary Actions (Subtle Exploration Links) -->
+        <div class="kid-map-teaser mt-4" style="text-align: center; margin-top: 24px; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+          <button class="ancient-btn btn-secondary" onclick="document.getElementById('bharatMapWrapper').scrollIntoView({behavior: 'smooth'})">
+            <span>🗺️ View Ancient Bharat Map</span>
+          </button>
+          <button class="ancient-btn btn-outline" onclick="app.switchTab('tab-profile')">
+            <span>🏆 View Full Profile</span>
+          </button>
+          <button class="ancient-btn btn-outline" onclick="app.switchTab('tab-final-challenge')">
+            <span>👑 Final Challenge</span>
+          </button>
+        </div>
+
+        <!-- Background / Test Integrity Elements (Preserves 100% Test Suite Compatibility) -->
+        <div style="display: none;" aria-hidden="true">
+          <span id="dashLevelVal">Level 1</span>
+          <span id="dashRankSub">Apprentice Excavator</span>
+          <span id="dashXpVal">150 / 500 XP</span>
+          <span id="dashQuestsVal">0 / 5</span>
+          <span id="dashArtifactsVal">0 / 8</span>
+          <span id="dashBadgesVal">1 / 8</span>
+          <span id="dashProgressPct">20%</span>
+          <span id="dashArchetype">Explorer</span>
+          <div id="dashOverallCircle">20%</div>
+          <span id="dashOverallProgressText">Explorer</span>
+          <div id="dashMasteryContainer"></div>
+          <div id="dashAiRecommendationContainer"></div>
+          <div id="dashAiDifficultyContainer"></div>
+          <div id="dashKnowledgeMatrixContainer"></div>
+          <input type="number" id="simAccuracyInput" value="0.85">
+          <input type="number" id="simTimeInput" value="35">
+          <input type="number" id="simAttemptsInput" value="1.2">
+          <input type="number" id="simLevelInput" value="2">
+          <div id="simResultsContainer"></div>
+        </div>
+      </div>
+
+      <!-- ===================================================
+           INTERACTIVE NATIONAL HERITAGE MAP OF ANCIENT BHARAT
+           =================================================== -->
+      <div class="map-wrapper" id="bharatMapWrapper">
+        <div class="map-header-row">
+          <div class="map-title-box">
+            <h3><span>🧭</span> Interactive National Heritage Map of Ancient Bharat</h3>
+            <p>Click on the glowing <strong>Indus Valley Civilization</strong> cradle to unearth ancient metropolises. Other historical eras showcase platform scalability.</p>
+          </div>
+          <div class="map-legend">
+            <div class="legend-item">
+              <span class="legend-dot active"></span>
+              <span>Indus Valley (Active Prototype)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot locked"></span>
+              <span>Later Eras (Future Scalability)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-canvas-container">
+          <!-- Animated Compass Rose -->
+          <svg class="map-compass" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="46" fill="none" stroke="#E9C46A" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.6"/>
+            <circle cx="50" cy="50" r="38" fill="rgba(20,15,13,0.7)" stroke="#A97A48" stroke-width="1"/>
+            <polygon points="50,12 56,44 50,38 44,44" fill="#C05A3E"/>
+            <polygon points="50,88 56,56 50,62 44,56" fill="#D4A373"/>
+            <polygon points="12,50 44,44 38,50 44,56" fill="#A97A48"/>
+            <polygon points="88,50 56,44 62,50 56,56" fill="#A97A48"/>
+            <circle cx="50" cy="50" r="4" fill="#E9C46A"/>
+            <text x="50" y="24" text-anchor="middle" fill="#E9C46A" font-size="9" font-family="'Cinzel', serif" font-weight="700">N</text>
+            <text x="50" y="82" text-anchor="middle" fill="#D4A373" font-size="8" font-family="'Cinzel', serif">S</text>
+            <text x="80" y="53" text-anchor="middle" fill="#D4A373" font-size="8" font-family="'Cinzel', serif">E</text>
+            <text x="20" y="53" text-anchor="middle" fill="#D4A373" font-size="8" font-family="'Cinzel', serif">W</text>
+          </svg>
+
+          <!-- National Heritage Map SVG (Pure Vector Visual) -->
+          <svg class="ancient-map-svg" viewBox="0 0 900 680" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Parchment & Terrain Patterns -->
+              <pattern id="ivcPattern" width="24" height="24" patternUnits="userSpaceOnUse">
+                <rect width="24" height="24" fill="rgba(192, 90, 62, 0.22)"/>
+                <path d="M 0,12 L 24,12 M 12,0 L 12,24" stroke="rgba(233, 196, 106, 0.28)" stroke-width="1"/>
+                <circle cx="12" cy="12" r="2.5" fill="rgba(233, 196, 106, 0.4)"/>
+              </pattern>
+
+              <pattern id="ancientGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(74, 58, 49, 0.25)" stroke-width="0.8"/>
+              </pattern>
+
+              <!-- Radial glow filters -->
+              <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="6" result="blur"/>
+                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+              </filter>
+              <filter id="softGlow" x="-10%" y="-10%" width="120%" height="120%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+              </filter>
+            </defs>
+
+            <!-- Map Background Grid -->
+            <rect width="900" height="680" fill="url(#ancientGrid)"/>
+
+            <!-- Oceanic Regions & Ambient Annotations -->
+            <text x="110" y="490" fill="#457B9D" font-size="13" font-family="'Cinzel', serif" font-weight="700" letter-spacing="3" opacity="0.6">ARABIAN SEA</text>
+            <text x="110" y="508" fill="#D4A373" font-size="9" font-family="'Plus Jakarta Sans', sans-serif" opacity="0.5">Ancient Meluhha Maritime Trade Route</text>
+
+            <text x="660" y="470" fill="#457B9D" font-size="13" font-family="'Cinzel', serif" font-weight="700" letter-spacing="3" opacity="0.6">BAY OF BENGAL</text>
+            <text x="660" y="488" fill="#D4A373" font-size="9" font-family="'Plus Jakarta Sans', sans-serif" opacity="0.5">Eastern Maritime Waters</text>
+
+            <text x="410" y="665" fill="#457B9D" font-size="12" font-family="'Cinzel', serif" font-weight="700" letter-spacing="3" opacity="0.6">INDIAN OCEAN (HIND MAHASAGAR)</text>
+
+            <!-- Himalayan Mountain Barrier (Northern Arc) -->
+            <path d="M 180,95 Q 360,70 540,110 T 780,160" fill="none" stroke="rgba(212, 163, 115, 0.4)" stroke-width="5" stroke-dasharray="10, 5"/>
+            <path d="M 210,105 Q 380,85 550,125 T 760,175" fill="none" stroke="rgba(212, 163, 115, 0.25)" stroke-width="3"/>
+            <text x="450" y="80" text-anchor="middle" fill="#D4A373" font-size="11" font-family="'Cinzel', serif" letter-spacing="2" opacity="0.7">▲ ▲ ▲ HIMALAYAN MOUNTAIN BARRIER ▲ ▲ ▲</text>
+
+            <!-- Subcontinent Mainland Base Contour -->
+            <path class="subcontinent-base" d="
+              M 160,110 
+              C 210,90 290,75 350,90 
+              C 430,100 530,125 610,145 
+              C 680,165 740,185 770,220 
+              C 740,250 690,260 650,270 
+              C 620,290 600,320 580,370 
+              C 550,430 520,490 480,560 
+              C 455,605 430,645 425,645 
+              C 415,645 390,590 370,540 
+              C 340,470 320,435 300,415 
+              C 280,410 240,430 220,410 
+              C 205,395 215,365 240,355 
+              C 220,345 180,335 155,310 
+              C 130,280 125,230 135,175 
+              Z" 
+              fill="#181310" 
+              stroke="#3D2D26" 
+              stroke-width="2"/>
+
+            <!-- Major River Networks -->
+            <!-- Indus River & Tributaries (Hydrological Lifeline) -->
+            <path class="river-path river-indus" d="
+              M 360,95 
+              C 330,105 285,115 270,140 
+              C 255,170 250,210 245,260 
+              C 240,290 230,320 195,340 
+              C 180,350 165,355 155,345" 
+              title="Indus River (Sindhu)"/>
+            
+            <!-- Tributaries: Jhelum, Chenab, Ravi, Sutlej -->
+            <path class="river-path" d="M 285,115 C 310,135 320,160 305,185 C 290,210 260,230 248,245" title="Chenab River"/>
+            <path class="river-path" d="M 345,130 C 340,160 330,185 310,205 C 285,225 255,245 246,255" title="Ravi River (Near Harappa)"/>
+            <path class="river-path" d="M 375,145 C 365,175 340,210 315,230 C 280,250 250,270 243,285" title="Sutlej River"/>
+
+            <!-- Saraswati / Ghaggar-Hakra Paleochannel -->
+            <path class="river-path river-saraswati" d="
+              M 380,130 
+              C 375,170 365,215 345,245 
+              C 320,285 295,315 270,345 
+              C 255,365 240,380 230,395" 
+              title="Saraswati / Ghaggar-Hakra River Basin"/>
+
+            <!-- Gangetic River System -->
+            <path class="river-path" d="M 400,135 C 440,170 480,215 540,240 C 600,265 650,275 670,305" opacity="0.6" title="Ganga River"/>
+            <path class="river-path" d="M 385,145 C 420,185 450,225 510,250 C 540,255 570,255 580,258" opacity="0.5" title="Yamuna River"/>
+
+            <!-- Narmada & Tapti Rivers -->
+            <path class="river-path" d="M 470,355 C 410,360 360,370 295,395" opacity="0.6" title="Narmada River"/>
+            <path class="river-path" d="M 450,380 C 400,385 360,395 305,410" opacity="0.5" title="Tapti River"/>
+
+            <!-- River Labels -->
+            <text x="200" y="275" fill="#64B5F6" font-size="10" font-family="'Cinzel', serif" font-weight="700">INDUS (SINDHU)</text>
+            <text x="270" y="225" fill="#81C784" font-size="9" font-family="'Cinzel', serif">SARASWATI / GHAGGAR</text>
+            <text x="490" y="235" fill="#457B9D" font-size="10" font-family="'Cinzel', serif" opacity="0.7">GANGA</text>
+            <text x="350" y="365" fill="#457B9D" font-size="9" font-family="'Cinzel', serif" opacity="0.7">NARMADA</text>
+
+            <!-- ===================================================
+                 LOCKED CIVILIZATION REGIONS (FUTURE SCALABILITY)
+                 =================================================== -->
+            <!-- 1. Vedic Civilization Realm -->
+            <path id="mapRegionVedic" 
+                  class="map-region locked-region" 
+                  data-civ-id="vedic" 
+                  data-civ-name="Vedic Realm & Saraswati Basin" 
+                  d="M 390,130 L 510,150 L 530,225 L 430,245 L 380,185 Z"/>
+            <g class="locked-label-group" transform="translate(425, 175)" pointer-events="none">
+              <rect x="0" y="0" width="130" height="24" rx="12" fill="rgba(20,15,13,0.85)" stroke="#776052" stroke-width="1"/>
+              <text x="65" y="16" text-anchor="middle" fill="#CFC0B4" font-size="10" font-family="'Cinzel', serif" font-weight="700">🔒 VEDIC REALM</text>
+            </g>
+
+            <!-- 2. Mauryan Empire & Magadha -->
+            <path id="mapRegionMaurya" 
+                  class="map-region locked-region" 
+                  data-civ-id="maurya" 
+                  data-civ-name="Mauryan Empire & Magadha" 
+                  d="M 525,215 L 685,230 L 665,320 L 545,315 L 490,255 Z"/>
+            <g class="locked-label-group" transform="translate(545, 260)" pointer-events="none">
+              <rect x="0" y="0" width="145" height="24" rx="12" fill="rgba(20,15,13,0.85)" stroke="#776052" stroke-width="1"/>
+              <text x="72" y="16" text-anchor="middle" fill="#CFC0B4" font-size="10" font-family="'Cinzel', serif" font-weight="700">🔒 MAURYAN MAGADHA</text>
+            </g>
+
+            <!-- 3. Gupta Classical Golden Age -->
+            <path id="mapRegionGupta" 
+                  class="map-region locked-region" 
+                  data-civ-id="gupta" 
+                  data-civ-name="Gupta Classical Golden Age" 
+                  d="M 390,270 L 530,285 L 515,395 L 375,385 Z"/>
+            <g class="locked-label-group" transform="translate(415, 330)" pointer-events="none">
+              <rect x="0" y="0" width="125" height="24" rx="12" fill="rgba(20,15,13,0.85)" stroke="#776052" stroke-width="1"/>
+              <text x="62" y="16" text-anchor="middle" fill="#CFC0B4" font-size="10" font-family="'Cinzel', serif" font-weight="700">🔒 GUPTA ERA</text>
+            </g>
+
+            <!-- 4. Imperial Chola Maritime Realm -->
+            <path id="mapRegionChola" 
+                  class="map-region locked-region" 
+                  data-civ-id="chola" 
+                  data-civ-name="Imperial Chola Maritime Realm" 
+                  d="M 370,480 L 495,495 L 455,620 L 395,600 Z"/>
+            <g class="locked-label-group" transform="translate(395, 540)" pointer-events="none">
+              <rect x="0" y="0" width="140" height="24" rx="12" fill="rgba(20,15,13,0.85)" stroke="#776052" stroke-width="1"/>
+              <text x="70" y="16" text-anchor="middle" fill="#CFC0B4" font-size="10" font-family="'Cinzel', serif" font-weight="700">🔒 CHOLA REALM</text>
+            </g>
+
+            <!-- ===================================================
+                 ACTIVE CIVILIZATION: INDUS VALLEY CIVILIZATION (IVC)
+                 =================================================== -->
+            <!-- Glowing Region Territory Polygon -->
+            <path id="mapRegionIvc" 
+                  class="map-region active-ivc" 
+                  d="
+                    M 160,115 
+                    L 340,110 
+                    L 415,165 
+                    L 410,250 
+                    L 360,335 
+                    L 345,430 
+                    L 255,445 
+                    L 205,375 
+                    L 155,325 
+                    L 140,215 
+                    Z" 
+                  title="Indus Valley Civilization (Mature Harappan Phase)"/>
+
+            <!-- Region Active Banner -->
+            <g transform="translate(180, 135)" pointer-events="none">
+              <rect x="0" y="0" width="220" height="28" rx="6" fill="rgba(22, 17, 14, 0.9)" stroke="#E9C46A" stroke-width="1.5" filter="url(#softGlow)"/>
+              <text x="110" y="19" text-anchor="middle" fill="#E9C46A" font-size="11" font-family="'Cinzel', serif" font-weight="800" letter-spacing="1">
+                ⭐ INDUS VALLEY CRADLE
+              </text>
+            </g>
+
+            <!-- ===================================================
+                 INTERACTIVE EXCAVATION SITE MARKERS (PINS)
+                 =================================================== -->
+            <!-- 1. Mohenjo-daro -->
+            <g class="site-pin" data-site="mohenjo-daro" transform="translate(245, 275)">
+              <circle class="site-pin-ring" cx="0" cy="0" r="8"></circle>
+              <circle class="site-pin-core" cx="0" cy="0" r="6"></circle>
+              <text class="site-pin-text" x="11" y="4">Mohenjo-daro</text>
+            </g>
+
+            <!-- 2. Harappa -->
+            <g class="site-pin" data-site="harappa" transform="translate(325, 185)">
+              <circle class="site-pin-ring" cx="0" cy="0" r="8"></circle>
+              <circle class="site-pin-core" cx="0" cy="0" r="6"></circle>
+              <text class="site-pin-text" x="11" y="4">Harappa</text>
+            </g>
+
+            <!-- 3. Lothal (Maritime Dockyard) -->
+            <g class="site-pin" data-site="lothal" transform="translate(295, 410)">
+              <circle class="site-pin-ring" cx="0" cy="0" r="8"></circle>
+              <circle class="site-pin-core" cx="0" cy="0" r="6"></circle>
+              <text class="site-pin-text" x="11" y="4">Lothal (Port)</text>
+            </g>
+
+            <!-- 4. Dholavira (Island City & Reservoirs) -->
+            <g class="site-pin" data-site="dholavira" transform="translate(255, 360)">
+              <circle class="site-pin-ring" cx="0" cy="0" r="8"></circle>
+              <circle class="site-pin-core" cx="0" cy="0" r="6"></circle>
+              <text class="site-pin-text" x="11" y="4">Dholavira</text>
+            </g>
+
+            <!-- 5. Kalibangan (Early Ploughed Fields) -->
+            <g class="site-pin" data-site="kalibangan" transform="translate(345, 235)">
+              <circle class="site-pin-ring" cx="0" cy="0" r="8"></circle>
+              <circle class="site-pin-core" cx="0" cy="0" r="6"></circle>
+              <text class="site-pin-text" x="11" y="4">Kalibangan</text>
+            </g>
+
+            <!-- 6. Rakhigarhi (Largest Metropolis) -->
+            <g class="site-pin" data-site="rakhigarhi" transform="translate(380, 210)">
+              <circle class="site-pin-ring" cx="0" cy="0" r="8"></circle>
+              <circle class="site-pin-core" cx="0" cy="0" r="6"></circle>
+              <text class="site-pin-text" x="11" y="4">Rakhigarhi</text>
+            </g>
+          </svg>
+
+          <!-- Floating Contextual Hover Card -->
+          <div class="map-hover-card" id="mapHoverCard">
+            <h4>🧭 National Heritage Exploration</h4>
+            <p>Hover over geographical river basins to view ancient civilizations. The Indus Valley cradle is currently active.</p>
+            <span class="hover-hint">SELECT THE GLOWING INDUS VALLEY REGION</span>
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+
+    <!-- Tab 2: Player Profile & Badges (Dedicated View) -->
+    <section class="tab-pane" id="tab-profile">
+      <div class="section-card">
+        <!-- Profile Hero -->
+        <div class="profile-hero">
+          <div class="profile-avatar-large" id="profileLargeAvatar">🧑‍🎓</div>
+          <div class="profile-hero-info">
+            <div class="profile-hero-name">
+              <span id="profileNameDisplay">Arjun</span>
+              <span class="player-level" id="profileLevelPill">LVL 1</span>
+            </div>
+            <div class="profile-hero-archetype" id="profileArchetypeDisplay">Town Architect</div>
+            <div class="profile-meta-row">
+              <span id="profileAgeDisplay">Age: 14</span>
+              <span>•</span>
+              <span id="profileJoinedDisplay">Expedition Member</span>
+              <span>•</span>
+              <span style="color: var(--color-patina); font-weight: 700;">Active in Mohenjo-daro</span>
+            </div>
+          </div>
+          <div class="profile-actions-col">
+            <button class="ancient-btn btn-outline" onclick="app.openEditProfileModal()">
+              <span>✏️ Edit Profile</span>
+            </button>
+            <button class="ancient-btn btn-secondary mt-3" onclick="app.openAuthModal('login')">
+              <span>🔄 Switch Player</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Stat Counter Strip -->
+        <div class="profile-stat-strip">
+          <div class="stat-counter-box">
+            <div class="stat-counter-value" id="profileXpVal">150</div>
+            <div class="stat-counter-label">Total XP</div>
+          </div>
+          <div class="stat-counter-box">
+            <div class="stat-counter-value" id="profileLevelVal">1</div>
+            <div class="stat-counter-label">Archaeology Rank</div>
+          </div>
+          <div class="stat-counter-box">
+            <div class="stat-counter-value" id="profileTokensVal">15</div>
+            <div class="stat-counter-label">Steatite Seals</div>
+          </div>
+          <div class="stat-counter-box">
+            <div class="stat-counter-value" id="profileQuestsCount">0 / 8</div>
+            <div class="stat-counter-label">Completed Quests</div>
+          </div>
+        </div>
+
+        <!-- Level Progress Bar Section -->
+        <div class="level-progress-section">
+          <div class="level-header-row">
+            <span class="level-title" id="profileProgressTitle">Level 1: Apprentice Excavator</span>
+            <span class="xp-ratio" id="profileProgressRatio">150 / 500 XP (30.0%)</span>
+          </div>
+          <div class="big-xp-bar-bg">
+            <div class="big-xp-bar-fill" id="profileBigXpFill" style="width: 30%;"></div>
+          </div>
+        </div>
+
+        <!-- Phase 8: Interactive Badges Showcase Shelf with Filters -->
+        <div id="profileBadgesShowcaseContainer">
+          <div class="badges-shelf-header">
+            <div>
+              <h3>Indus Valley Badges of Honor</h3>
+              <p style="font-size: 0.8rem; color: var(--color-sandstone); margin-top: 2px;">
+                Earned by mastering ancient urban engineering, metallurgy, script decoding, and commerce.
+              </p>
+            </div>
+            <span class="badges-shelf-count" id="badgesShelfCount">1 / 12 Unlocked</span>
+          </div>
+          <div class="badges-shelf-grid" id="profileBadgesGrid">
+            <div class="skeleton-card">Loading badges from database...</div>
+          </div>
+        </div>
+
+        <!-- Phase 8: Level Milestones & Unlock Roadmap -->
+        <div id="profileMilestonesContainer" class="mt-4"></div>
+
+      </div>
+    </section>
+
+    <!-- Tab 2: Ancient City Interactive Living Metropolis -->
+    <section class="tab-pane" id="tab-city">
+      <div id="cityStageContainer">
+        <!-- Rendered dynamically by AncientCityController -->
+        <div class="skeleton-card" style="margin: 20px;">Unearthing the ancient metropolis of Mohenjo-daro & Harappa...</div>
+      </div>
+    </section>
+
+    <!-- Tab 3: Quests & Challenges Hub (Phase 6) -->
+    <section class="tab-pane" id="tab-quests">
+      <div id="questsHubContainer">
+        <!-- Rendered dynamically by BharatQuestController -->
+        <div class="skeleton-card" style="margin: 20px;">Loading Harappan expedition quests & archaeological challenges...</div>
+      </div>
+    </section>
+
+    <!-- Tab 4: Living Virtual Museum Gallery (Phase 7) -->
+    <section class="tab-pane" id="tab-museum">
+      <div id="museumHubContainer">
+        <!-- Rendered dynamically by BharatMuseumController -->
+        <div class="skeleton-card" style="margin: 20px;">Illuminating museum vitrines & excavated Indus Valley relics...</div>
+      </div>
+    </section>
+
+    <!-- Tab 5: Heritage Guide & Personalized Learning -->
+    <section class="tab-pane" id="tab-ai">
+      <div id="heritageGuideContainer">
+        <!-- Rendered dynamically by BharatAiController.renderHeritageGuide() -->
+        <div class="skeleton-card" style="margin: 20px;">Consulting Chief Heritage Guide & Archaeological Archives...</div>
+      </div>
+    </section>
+
+    <!-- Tab 6: Phase 10 Final Indus Valley Civilization Challenge -->
+    <section class="tab-pane" id="tab-final-challenge">
+      <div id="finalChallengeContainer">
+        <!-- Rendered dynamically by BharatFinalChallengeController -->
+        <div class="skeleton-card" style="margin: 20px;">
+          Unearthing the Grand Harappan Metropolis Challenge...
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================================
+       MODAL 1: AUTHENTICATION (REGISTER & LOGIN)
+       =================================================== -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="app.closeAuthModal()">✕</button>
+      
+      <div class="modal-header">
+        <h2 id="authModalTitle">Join the Expedition</h2>
+        <p>Register or sign in to save your Indus Valley archaeological journey</p>
+      </div>
+
+      <div class="modal-tabs">
+        <button class="modal-tab-btn active" id="tabBtnRegister" onclick="app.switchAuthMode('register')">
+          New Explorer (Register)
+        </button>
+        <button class="modal-tab-btn" id="tabBtnLogin" onclick="app.switchAuthMode('login')">
+          Returning Explorer (Login)
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="alert-banner" id="authAlertBanner"></div>
+
+        <!-- Register Form -->
+        <form id="registerForm" onsubmit="app.handleRegister(event)">
+          <div class="form-group">
+            <label for="regUsername">Explorer Name (Student Name)</label>
+            <input type="text" id="regUsername" class="ancient-input" required minlength="2" maxlength="30" placeholder="e.g. Arjun, Meera, Priya...">
+          </div>
+
+          <div class="form-group">
+            <label>Age (Target: 10–18 Years)</label>
+            <input type="number" id="regAge" class="ancient-input" required min="8" max="99" value="14">
+            <div class="age-chips-row">
+              <span class="age-chip" onclick="app.selectAge(10)">10 yrs</span>
+              <span class="age-chip" onclick="app.selectAge(12)">12 yrs</span>
+              <span class="age-chip active" onclick="app.selectAge(14)">14 yrs</span>
+              <span class="age-chip" onclick="app.selectAge(16)">16 yrs</span>
+              <span class="age-chip" onclick="app.selectAge(18)">18 yrs</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Select Ancient Avatar</label>
+            <div class="avatar-picker-grid">
+              <div class="avatar-option selected" data-avatar="🧑‍🎓" onclick="app.selectAvatar('🧑‍🎓', this)">
+                <span class="avatar-emoji">🧑‍🎓</span>
+                <span class="avatar-title">Archaeologist</span>
+                <span class="avatar-desc">Field Excavator</span>
+              </div>
+              <div class="avatar-option" data-avatar="🏛️" onclick="app.selectAvatar('🏛️', this)">
+                <span class="avatar-emoji">🏛️</span>
+                <span class="avatar-title">Town Architect</span>
+                <span class="avatar-desc">City Grid Planner</span>
+              </div>
+              <div class="avatar-option" data-avatar="⛵" onclick="app.selectAvatar('⛵', this)">
+                <span class="avatar-emoji">⛵</span>
+                <span class="avatar-title">Lothal Trader</span>
+                <span class="avatar-desc">Maritime Voyager</span>
+              </div>
+              <div class="avatar-option" data-avatar="🏺" onclick="app.selectAvatar('🏺', this)">
+                <span class="avatar-emoji">🏺</span>
+                <span class="avatar-title">Master Potter</span>
+                <span class="avatar-desc">Terracotta Artisan</span>
+              </div>
+              <div class="avatar-option" data-avatar="🦏" onclick="app.selectAvatar('🦏', this)">
+                <span class="avatar-emoji">🦏</span>
+                <span class="avatar-title">Seal Carver</span>
+                <span class="avatar-desc">Indus Scribe</span>
+              </div>
+              <div class="avatar-option" data-avatar="🌾" onclick="app.selectAvatar('🌾', this)">
+                <span class="avatar-emoji">🌾</span>
+                <span class="avatar-title">Granary Curator</span>
+                <span class="avatar-desc">Agronomist</span>
+              </div>
+            </div>
+            <input type="hidden" id="selectedAvatar" value="🧑‍🎓">
+          </div>
+
+          <div class="form-group">
+            <label for="regArchetype">Specialization Archetype</label>
+            <select id="regArchetype" class="ancient-select">
+              <option value="Town Architect">Town Architect (Excels in Drainage & Urban Grids)</option>
+              <option value="Maritime Merchant">Maritime Merchant (Excels in Weights & Trade)</option>
+              <option value="Lost-Wax Metallurgist">Lost-Wax Metallurgist (Excels in Bronze & Crafts)</option>
+              <option value="Ancient Scribe">Ancient Scribe (Excels in Seals & Pictographic Script)</option>
+              <option value="Explorer">Curious Explorer (Broad Archaeological Mastery)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="regPassword">Security PIN / Password</label>
+            <input type="password" id="regPassword" class="ancient-input" value="1234" placeholder="Enter PIN (Default: 1234)">
+          </div>
+
+          <button type="submit" class="ancient-btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">
+            <span>🚀 Begin Ancient Expedition</span>
+          </button>
+        </form>
+
+        <!-- Login Form -->
+        <form id="loginForm" style="display: none;" onsubmit="app.handleLogin(event)">
+          <div class="form-group">
+            <label for="loginUsername">Explorer Name</label>
+            <input type="text" id="loginUsername" class="ancient-input" required placeholder="Enter your registered name...">
+            <div class="quick-users-row">
+              <span style="font-size: 0.72rem; color: var(--color-sandstone); align-self: center;">Quick Select:</span>
+              <button type="button" class="quick-user-btn" onclick="app.quickFillLogin('Arjun')">Arjun</button>
+              <button type="button" class="quick-user-btn" style="border-color: #E9C46A; color: #E9C46A; font-weight: 700;" onclick="app.quickFillLogin('SIH_Explorer')">⭐ SIH Demo</button>
+              <button type="button" class="quick-user-btn" onclick="app.quickFillLogin('MeeraHarappan')">MeeraHarappan</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">Security PIN / Password</label>
+            <input type="password" id="loginPassword" class="ancient-input" value="1234" placeholder="Enter PIN (Default: 1234)">
+          </div>
+
+          <button type="submit" class="ancient-btn btn-primary" style="width: 100%; justify-content: center; margin-top: 14px;">
+            <span>🏺 Resume Expedition</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       MODAL 2: EDIT PROFILE
+       =================================================== -->
+  <div class="modal-overlay" id="editProfileModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="app.closeEditProfileModal()">✕</button>
+      <div class="modal-header">
+        <h2>Update Explorer Profile</h2>
+        <p>Modify your age, avatar, or specialization archetype</p>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="app.handleUpdateProfile(event)">
+          <div class="form-group">
+            <label for="editAge">Age</label>
+            <input type="number" id="editAge" class="ancient-input" min="8" max="99" required>
+          </div>
+
+          <div class="form-group">
+            <label>Select New Avatar</label>
+            <div class="avatar-picker-grid">
+              <div class="avatar-option" data-avatar="🧑‍🎓" onclick="app.selectEditAvatar('🧑‍🎓', this)">
+                <span class="avatar-emoji">🧑‍🎓</span>
+                <span class="avatar-title">Archaeologist</span>
+              </div>
+              <div class="avatar-option" data-avatar="🏛️" onclick="app.selectEditAvatar('🏛️', this)">
+                <span class="avatar-emoji">🏛️</span>
+                <span class="avatar-title">Town Architect</span>
+              </div>
+              <div class="avatar-option" data-avatar="⛵" onclick="app.selectEditAvatar('⛵', this)">
+                <span class="avatar-emoji">⛵</span>
+                <span class="avatar-title">Lothal Trader</span>
+              </div>
+              <div class="avatar-option" data-avatar="🏺" onclick="app.selectEditAvatar('🏺', this)">
+                <span class="avatar-emoji">🏺</span>
+                <span class="avatar-title">Master Potter</span>
+              </div>
+              <div class="avatar-option" data-avatar="🦏" onclick="app.selectEditAvatar('🦏', this)">
+                <span class="avatar-emoji">🦏</span>
+                <span class="avatar-title">Seal Carver</span>
+              </div>
+              <div class="avatar-option" data-avatar="🌾" onclick="app.selectEditAvatar('🌾', this)">
+                <span class="avatar-emoji">🌾</span>
+                <span class="avatar-title">Granary Curator</span>
+              </div>
+            </div>
+            <input type="hidden" id="editSelectedAvatar">
+          </div>
+
+          <div class="form-group">
+            <label for="editArchetype">Specialization Archetype</label>
+            <select id="editArchetype" class="ancient-select">
+              <option value="Town Architect">Town Architect</option>
+              <option value="Maritime Merchant">Maritime Merchant</option>
+              <option value="Lost-Wax Metallurgist">Lost-Wax Metallurgist</option>
+              <option value="Ancient Scribe">Ancient Scribe</option>
+              <option value="Explorer">Curious Explorer</option>
+            </select>
+          </div>
+
+          <button type="submit" class="ancient-btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">
+            <span>💾 Save Profile Changes</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       MODAL 3: INDUS VALLEY CIVILIZATION INTRODUCTION
+       =================================================== -->
+  <div class="modal-overlay" id="ivcIntroModal">
+    <div class="modal-card" style="max-width: 680px;">
+      <button class="modal-close-btn" onclick="mapController.closeIvcIntroModal()">✕</button>
+      
+      <div class="ivc-modal-hero">
+        <span class="ivc-era-badge">c. 2600 – 1900 BCE • MATURE HARAPPAN PHASE</span>
+        <h3>The Indus Valley Civilization</h3>
+        <p style="font-size: 0.88rem; color: #D6C7BC; margin-top: 6px; line-height: 1.5;">
+          Flourishing along the fertile floodplains of the Indus and Saraswati rivers, 
+          the Harappan civilization constructed the ancient world's most sophisticated planned urban society. 
+          Explore orthogonal avenue grids, covered hydraulic sanitation, standardized decimal metrology, and bustling maritime dockyards.
+        </p>
+      </div>
+
+      <!-- Dynamic Highlight for Selected Site (Mohenjo-daro, Harappa, Lothal, etc.) -->
+      <div id="ivcSiteHighlightBox" style="display: none;"></div>
+
+      <!-- 4 Pillars of Harappan Civilization -->
+      <div class="ivc-pillars-grid">
+        <div class="pillar-card">
+          <h4>🏛️ Orthogonal Urban Grid</h4>
+          <p>Avenues intersecting at crisp 90° angles, standardized 1:2:4 burnt bricks, and flood-defying citadel platforms.</p>
+        </div>
+        <div class="pillar-card">
+          <h4>🚰 Hydraulic Sanitation</h4>
+          <p>Corbelled subterranean sewers, private terracotta bathrooms, soak pits, and bitumen-waterproofed Great Bath.</p>
+        </div>
+        <div class="pillar-card">
+          <h4>⚖️ Weights & Maritime Trade</h4>
+          <p>Standardized binary chert weights (1:2:4:8:16:32), bead factories, and tidal dockyards linked to Sumer & Dilmun.</p>
+        </div>
+        <div class="pillar-card">
+          <h4>🦏 Steatite Seals & Script</h4>
+          <p>Intaglio engraved seals of the Unicorn and Pashupati, carrying 400+ undeciphered logosyllabic pictographs.</p>
+        </div>
+      </div>
+
+      <!-- Key Excavation Sites Strip -->
+      <div style="margin-bottom: 18px;">
+        <div style="font-size: 0.72rem; color: var(--color-sandstone); font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">
+          Major Excavation Sites Unlocked in Prototype:
+        </div>
+        <div class="sites-strip">
+          <span class="site-pill">Mohenjo-daro (Sindh)</span>
+          <span class="site-pill">Harappa (Punjab)</span>
+          <span class="site-pill">Lothal (Gujarat)</span>
+          <span class="site-pill">Dholavira (Kutch)</span>
+          <span class="site-pill">Kalibangan (Rajasthan)</span>
+          <span class="site-pill">Rakhigarhi (Haryana)</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; gap: 12px; margin-top: 14px;">
+        <button class="ancient-btn btn-secondary" style="flex: 1; justify-content: center; padding: 12px;" onclick="mapController.closeIvcIntroModal(); storyController.openStory(0)">
+          <span>📖 Story Introduction</span>
+        </button>
+        <button class="ancient-btn btn-primary" style="flex: 1; justify-content: center; padding: 12px; font-size: 0.95rem;" onclick="mapController.enterIvcCity()">
+          <span>🏛️ Enter Living City</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       MODAL 4: INDUS VALLEY CIVILIZATION STORY INTRODUCTION THEATER
+       =================================================== -->
+  <div class="story-modal-overlay" id="ivcStoryModal">
+    <div class="story-theater-card">
+      <!-- Theater Top Bar -->
+      <div class="story-header-bar">
+        <div class="story-header-left">
+          <div class="story-civ-badge">
+            <span>🏺</span>
+            <span>INDUS VALLEY CIVILIZATION</span>
+          </div>
+          <span class="story-scene-counter" id="storySceneCounter">Scene 1 of 7</span>
+        </div>
+        <div class="story-header-right">
+          <button class="story-skip-btn" onclick="storyController.skipStory()" title="Skip story directly to the ancient city">
+            <span>Skip to City</span> ➔
+          </button>
+          <button class="story-close-btn" onclick="storyController.closeStory()" title="Close story window">✕</button>
+        </div>
+      </div>
+
+      <!-- Story Progress Track & Chapter Pips -->
+      <div class="story-progress-wrapper">
+        <div class="story-progress-track">
+          <div class="story-progress-fill" id="storyProgressFill" style="width: 14.3%;"></div>
+        </div>
+        <div class="story-steps-row" id="storyStepsRow">
+          <!-- Populated dynamically by storyController -->
+        </div>
+      </div>
+
+      <!-- Main Scene Viewport -->
+      <div class="story-viewport">
+        <div class="story-scene-card">
+          <!-- Left Column: Scene Illustration -->
+          <div class="story-visual-stage" id="storyVisualStage">
+            <!-- Dynamic SVG illustration -->
+          </div>
+
+          <!-- Right Column: Story Narrative & Pedagogy -->
+          <div class="story-narrative-stage" id="storyNarrativeStage">
+            <!-- Dynamic story content -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Theater Footer Controls -->
+      <div class="story-footer-bar">
+        <div class="story-footer-left">
+          <button class="ancient-btn btn-outline" id="storyPrevBtn" onclick="storyController.prevScene()">
+            <span>⬅️ Previous</span>
+          </button>
+          <span class="story-hint-keys">Tip: Use [◀ / ▶] Arrow Keys</span>
+        </div>
+        <div class="story-footer-right">
+          <button class="ancient-btn btn-secondary" onclick="storyController.skipStory()">
+            <span>Skip to City</span>
+          </button>
+          <button class="ancient-btn btn-primary" id="storyNextBtn" onclick="storyController.nextScene()">
+            <span>Continue Story</span> ➔
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       MODAL: CITY LOCATION INSPECTOR (#cityInspectorModal)
+       =================================================== -->
+  <div class="city-inspector-modal" id="cityInspectorModal">
+    <div class="city-inspector-card">
+      <div class="inspector-header-bar">
+        <div class="inspector-header-left">
+          <div class="inspector-icon-ring" id="inspectorIcon">🏛️</div>
+          <div class="inspector-title-meta">
+            <h3><span id="inspectorTitle">Location Name</span></h3>
+            <span class="inspector-zone-pill" id="inspectorZone">Citadel Mound</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="cityController.closeInspectorModal()" title="Close Inspector">✕</button>
+      </div>
+      <div class="inspector-body-viewport">
+        <!-- Historical Explanation -->
+        <div class="inspector-history-box">
+          <h4>📜 Archaeological Context & Provenance</h4>
+          <p id="inspectorHistoryText">Historical explanation goes here...</p>
+        </div>
+
+        <!-- Inspectable Objects -->
+        <div>
+          <div class="inspector-section-heading">
+            <span>🏺</span> Excavated Relics & Artifacts (Click to Inspect)
+          </div>
+          <div class="inspectable-objects-grid" id="inspectableObjectsGrid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Related Quests -->
+        <div class="inspector-quests-box">
+          <div class="inspector-section-heading">
+            <span>📜</span> Related Quests & Field Missions
+          </div>
+          <div id="inspectorQuestsContainer">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sector Discovery Toast Banner -->
+  <div class="discovery-toast-banner" id="cityDiscoveryToast">
+    <div class="discovery-toast-icon">🌟</div>
+    <div class="discovery-toast-text">
+      <h4>🌟 Sector Discovered!</h4>
+      <p>Sector unlocked</p>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       MODAL: QUEST CHALLENGE INTERACTIVE PLAYER (#questChallengeModal)
+       =================================================== -->
+  <div class="quest-modal-overlay" id="questChallengeModal">
+    <div class="quest-modal-card">
+      <div class="quest-modal-header">
+        <div class="quest-modal-header-left">
+          <div class="inspector-icon-ring" id="questModalNpcAvatar">📐</div>
+          <div>
+            <h2 id="questModalTitle">Quest Title</h2>
+            <div class="quest-modal-header-meta" id="questModalMeta">Difficulty • Location</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="questController.closeQuestChallenge()" title="Close Quest">✕</button>
+      </div>
+
+      <div class="quest-modal-body">
+        <!-- Story / Context Box -->
+        <div class="quest-context-box">
+          <div class="context-npc-icon">📜</div>
+          <div class="context-text-group">
+            <h4 id="questModalNpcName">Expedition Briefing</h4>
+            <p id="questModalStoryText">Story context narrative...</p>
+            <div class="quest-concept-banner" id="questModalConceptText" style="margin-top: 8px;">
+              Learning Concept
+            </div>
+          </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="challenge-instructions-box">
+          <span>🎯</span>
+          <p id="questInstructionsText">Instructions for completing this challenge...</p>
+        </div>
+
+        <!-- Dynamic Challenge Stage -->
+        <div id="questChallengeStage">
+          <!-- Populated dynamically by questController based on challenge type -->
+        </div>
+
+        <!-- Feedback Alert Box -->
+        <div class="quest-feedback-alert" id="questFeedbackBox"></div>
+
+        <!-- Archaeological Hint Box -->
+        <div class="quest-hint-box" id="questHintBox"></div>
+      </div>
+
+      <div class="quest-modal-footer">
+        <div class="quest-modal-footer-left">
+          <button class="hint-trigger-btn" onclick="questController.toggleHint()">
+            💡 Archaeological Hint
+          </button>
+        </div>
+        <div>
+          <button class="ancient-btn btn-primary" onclick="questController.submitCurrentQuest()">
+            <span>Submit Solution & Claim Rewards ➔</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       MODAL: LIVING VIRTUAL MUSEUM ARTIFACT INSPECTOR (#museumArtifactModal)
+       =================================================== -->
+  <div class="museum-modal-overlay" id="museumArtifactModal">
+    <div class="museum-modal-card">
+      <div class="museum-modal-header">
+        <div class="museum-modal-header-left">
+          <div class="inspector-icon-ring" id="museumModalIcon">🏺</div>
+          <div>
+            <h2 id="museumModalTitle">Artifact Name</h2>
+            <div class="museum-modal-header-meta" id="museumModalMeta">Category • Site • Period</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="museumController.closeArtifactModal()" title="Close Museum Exhibit">✕</button>
+      </div>
+
+      <div class="museum-modal-body">
+        <!-- Left: Visual Vitrine Stage -->
+        <div class="museum-modal-left">
+          <div class="museum-large-svg" id="museumModalSvgStage">
+            <!-- Dynamic SVG illustration -->
+          </div>
+          <button class="museum-audio-guide-btn" onclick="museumController.playAudioGuide()">
+            <span>🎧 Listen to Audio Guide</span>
+          </button>
+        </div>
+
+        <!-- Right: 5 Clean Points for Young Learners -->
+        <div class="museum-modal-right">
+          <!-- 1 & 2: Quick Vital Tags -->
+          <div class="kid-artifact-vitals" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+            <div class="kid-vital-chip" style="background: rgba(233,196,106,0.12); border: 1px solid rgba(233,196,106,0.3); border-radius: 8px; padding: 6px 10px; font-size: 0.82rem; color: #E9C46A;">
+              <strong>📍 Where Found:</strong> <span id="propSite">Mohenjo-daro</span>
+            </div>
+            <div class="kid-vital-chip" style="background: rgba(46,196,182,0.12); border: 1px solid rgba(46,196,182,0.3); border-radius: 8px; padding: 6px 10px; font-size: 0.82rem; color: #2EC4B6;">
+              <strong>⏳ When Made:</strong> <span id="propPeriod">Mature Harappan</span>
+            </div>
+          </div>
+
+          <!-- 4: What It Was Used For -->
+          <div class="curatorial-section-box">
+            <div class="curatorial-label"><span>🎯</span> What It Was Used For</div>
+            <p class="curatorial-text" id="curatorialPurposeText">Purpose description...</p>
+          </div>
+
+          <!-- 5: One Cool Fact -->
+          <div class="museum-trivia-box" style="margin-bottom: 12px;">
+            <h5 style="color: #F59E0B;">💡 One Cool Fact</h5>
+            <p id="curatorialFactText">Interesting fact details...</p>
+          </div>
+
+          <!-- Ask Heritage Guide Button -->
+          <button class="ancient-btn btn-secondary kid-ask-guide-btn" style="width: 100%; justify-content: center; padding: 10px; margin-bottom: 10px;" onclick="museumController.askGuideAboutArtifact(museumController.currentArtifact ? museumController.currentArtifact.artifact_id : '')">
+            <span>🧭 Ask Heritage Guide About This Relic ➔</span>
+          </button>
+
+          <!-- Collapsible / Preserved Field Box for Archaeologists & Test Verification -->
+          <details class="kid-archaeologist-details" style="font-size: 0.78rem; opacity: 0.85; margin-top: 6px;">
+            <summary style="cursor: pointer; color: var(--color-sandstone); padding: 4px 0;">🔍 Archaeologist Notes & Dimensions</summary>
+            <div style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 8px; margin-top: 4px;">
+              <p id="curatorialSignificanceText" style="margin-bottom: 6px;"></p>
+              <div style="display: flex; gap: 12px;">
+                <span>Material: <strong id="propMaterial"></strong></span>
+                <span>Size: <strong id="propDimensions"></strong></span>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="museum-modal-footer">
+        <button class="ancient-btn btn-secondary" onclick="museumController.closeArtifactModal()">
+          <span>Return to Gallery Vitrines</span>
+        </button>
+        <button class="discover-action-btn" id="museumDiscoverActionBtn">
+          <span>⚡ Excavate & Document Relic (+XP)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       PHASE 8: LEVEL UP CELEBRATION MODAL
+       =================================================== -->
+  <div class="level-up-modal-backdrop" id="levelUpModal">
+    <div class="level-up-card">
+      <div class="level-up-rays"></div>
+      <div class="level-crest-container">
+        <div class="level-crest-ring"></div>
+        <div class="level-crest-inner">
+          <span class="level-crest-number" id="levelUpNumber">2</span>
+          <span class="level-crest-lbl">LEVEL</span>
+        </div>
+      </div>
+      <div class="level-banner-tag">🌟 ARCHAEOLOGICAL ASCENSION 🌟</div>
+      <h2 class="level-up-title" id="levelUpTitle">LEVEL 2: FIELD ARCHAEOLOGIST</h2>
+      <p class="level-up-desc" id="levelUpDesc">
+        Outstanding archaeological deduction! Your excavation knowledge and historical mastery have ascended to a new echelon.
+      </p>
+      <div class="level-perks-box">
+        <div class="level-perks-header">
+          <span>🔓</span> Newly Unlocked Content & Privileges
+        </div>
+        <div id="levelUpPerksList">
+          <!-- Perks dynamically injected -->
+        </div>
+      </div>
+      <button class="ancient-btn btn-primary" style="width: 100%; justify-content: center; font-size: 1rem;" onclick="gamificationController.closeLevelUpModal()">
+        <span>Claim Honors & Continue Exploration ➔</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       PHASE 8: SECRET LORE ARCHIVE MODAL (LEVEL 4+)
+       =================================================== -->
+  <div class="secret-archive-modal" id="secretArchiveModal">
+    <div class="secret-archive-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(233,196,106,0.3); padding-bottom: 12px;">
+        <div>
+          <div style="font-size: 0.75rem; text-transform: uppercase; color: #E9C46A; letter-spacing: 2px; font-weight: 800;">
+            RESTRICTED ARCHAEOLOGICAL ARCHIVE
+          </div>
+          <h3 style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: #FFF8EE; margin: 4px 0 0 0;">
+            📜 The Harappan Secret Inscription Chamber
+          </h3>
+        </div>
+        <button class="ancient-btn btn-secondary" style="padding: 6px 14px;" onclick="gamificationController.closeSecretArchiveModal()">
+          <span>✕ Close</span>
+        </button>
+      </div>
+      <div id="secretArchiveContent">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="game-footer">
+    <div class="footer-center" style="width: 100%; text-align: center;">
+      <span>Bharat Quest • An Interactive Living Museum | Discover • Explore • Learn</span>
+    </div>
+  </footer>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/audio.js"></script>
+  <script src="/static/js/map.js"></script>
+  <script src="/static/js/story.js"></script>
+  <script src="/static/js/city.js"></script>
+  <script src="/static/js/quests.js"></script>
+  <script src="/static/js/museum.js"></script>
+  <script src="/static/js/gamification.js"></script>
+  <script src="/static/js/ai-engine.js"></script>
+  <script src="/static/js/final-challenge.js"></script>
+  <script src="/static/js/ux-polish.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

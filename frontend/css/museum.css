@@ -1,0 +1,564 @@
+/* ===================================================
+   BHARAT QUEST - LIVING VIRTUAL MUSEUM STYLES (PHASE 7)
+   Pure CSS3 • Museum Gallery Rotunda • Brass Vitrines
+   =================================================== */
+
+/* Museum Hub Container */
+.museum-hub-container {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Museum Grand Rotunda Header */
+.museum-header-bar {
+  background: radial-gradient(circle at 50% 10%, #281D17 0%, #150F0C 75%, #0B0806 100%);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 14px;
+  padding: 22px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(233, 196, 106, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.museum-header-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+.museum-header-left h2 {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  color: #FFF;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.museum-header-left p {
+  font-size: 0.84rem;
+  color: var(--color-sandstone);
+  margin: 5px 0 0 0;
+  line-height: 1.4;
+}
+
+/* Museum Curatorial Progress Meter */
+.museum-progress-meter {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(14, 10, 8, 0.85);
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--border-ancient);
+}
+
+.museum-meter-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--color-sandstone);
+  text-transform: uppercase;
+}
+
+.museum-meter-val {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-gold);
+}
+
+.museum-meter-track {
+  width: 140px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.museum-meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2A9D8F, var(--color-gold));
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+/* Category Filter Strip */
+.museum-filter-strip {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.museum-filter-btn {
+  background: rgba(26, 20, 17, 0.8);
+  border: 1px solid var(--border-ancient);
+  color: var(--color-sandstone);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.museum-filter-btn:hover {
+  background: rgba(42, 33, 29, 0.9);
+  color: var(--color-gold);
+  border-color: var(--border-gold);
+}
+
+.museum-filter-btn.active {
+  background: var(--color-gold);
+  color: #120E0C;
+  border-color: var(--color-gold);
+  font-weight: 700;
+}
+
+/* Museum Vitrine Exhibit Grid */
+.museum-vitrines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+@media (max-width: 640px) {
+  .museum-vitrines-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Individual Museum Vitrine Card */
+.museum-vitrine-card {
+  background: radial-gradient(circle at 50% 15%, rgba(42, 33, 29, 0.95), rgba(18, 14, 12, 0.98));
+  border: 1.5px solid var(--border-ancient);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.museum-vitrine-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--border-gold);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.75), 0 0 20px rgba(233, 196, 106, 0.25);
+}
+
+.museum-vitrine-card.locked {
+  opacity: 0.75;
+  filter: grayscale(0.5);
+}
+
+.museum-vitrine-card.locked:hover {
+  opacity: 0.95;
+  filter: grayscale(0.2);
+}
+
+/* Vitrine Display Case / Pedestal */
+.vitrine-pedestal {
+  background: radial-gradient(circle at 50% 30%, rgba(55, 42, 36, 0.9) 0%, rgba(20, 15, 13, 0.95) 100%);
+  border: 1px solid rgba(233, 196, 106, 0.3);
+  border-radius: 10px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Ambient Spotlight Beam */
+.vitrine-pedestal::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: 20%;
+  right: 20%;
+  height: 100px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(233, 196, 106, 0.25) 0%, transparent 75%);
+  pointer-events: none;
+}
+
+.vitrine-svg-stage {
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  z-index: 2;
+}
+
+.museum-vitrine-card:hover .vitrine-svg-stage {
+  transform: scale(1.08);
+}
+
+.vitrine-lock-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 10, 8, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 3;
+}
+
+.vitrine-lock-icon {
+  font-size: 2rem;
+  opacity: 0.8;
+}
+
+.vitrine-lock-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-sandstone);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Vitrine Brass Plaque */
+.vitrine-brass-plaque {
+  border-top: 1px solid var(--border-ancient);
+  padding-top: 12px;
+}
+
+.plaque-category-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-patina);
+  letter-spacing: 0.5px;
+}
+
+.plaque-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: #FFF;
+  margin: 3px 0;
+  line-height: 1.25;
+}
+
+.plaque-provenance {
+  font-size: 0.75rem;
+  color: var(--color-sandstone);
+}
+
+/* Vitrine Footer Status */
+.vitrine-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.vitrine-status-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.vitrine-status-tag.unlocked {
+  background: rgba(42, 157, 143, 0.15);
+  border: 1px solid var(--color-patina);
+  color: var(--color-patina);
+}
+
+.vitrine-status-tag.locked {
+  background: rgba(100, 100, 100, 0.15);
+  border: 1px solid #777;
+  color: #999;
+}
+
+.vitrine-inspect-btn {
+  background: transparent;
+  border: 1px solid var(--color-gold);
+  color: var(--color-gold);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vitrine-inspect-btn:hover {
+  background: var(--color-gold);
+  color: #120E0C;
+}
+
+/* ===================================================
+   MUSEUM ARTIFACT INSPECTOR MODAL (#museumArtifactModal)
+   =================================================== */
+.museum-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 4, 3, 0.92);
+  backdrop-filter: blur(12px);
+  z-index: 1350;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.museum-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.museum-modal-card {
+  background: radial-gradient(circle at 50% 20%, #261D18 0%, #17110E 75%, #0B0806 100%);
+  border: 2px solid var(--border-gold);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 920px;
+  max-height: 92vh;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 35px rgba(233, 196, 106, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.96) translateY(12px);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.museum-modal-overlay.active .museum-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.museum-modal-header {
+  padding: 16px 24px;
+  background: rgba(16, 11, 9, 0.9);
+  border-bottom: 1px solid var(--border-ancient);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.museum-modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.museum-modal-header h2 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--color-gold);
+  margin: 0;
+}
+
+.museum-modal-header-meta {
+  font-size: 0.74rem;
+  color: var(--color-sandstone);
+  margin-top: 2px;
+}
+
+.museum-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .museum-modal-body {
+    flex-direction: column;
+  }
+}
+
+/* Left Column: Visual Vitrine Stage */
+.museum-modal-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 35%, rgba(60, 46, 38, 0.85) 0%, rgba(15, 11, 9, 0.95) 100%);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 12px;
+  padding: 24px;
+  min-height: 280px;
+  position: relative;
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.7);
+}
+
+.museum-modal-left::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 25%;
+  right: 25%;
+  height: 90px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(233, 196, 106, 0.35) 0%, transparent 80%);
+  pointer-events: none;
+}
+
+.museum-large-svg {
+  width: 180px;
+  height: 180px;
+  z-index: 2;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
+}
+
+.museum-audio-guide-btn {
+  margin-top: 18px;
+  background: rgba(22, 17, 14, 0.85);
+  border: 1px solid var(--border-gold);
+  color: var(--color-gold);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+  transition: all 0.2s ease;
+}
+
+.museum-audio-guide-btn:hover {
+  background: var(--color-gold);
+  color: #120E0C;
+}
+
+/* Right Column: Curatorial Dossier */
+.museum-modal-right {
+  flex: 1.3;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.curatorial-section-box {
+  background: rgba(18, 13, 10, 0.8);
+  border: 1px solid var(--border-ancient);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.curatorial-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-patina);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.curatorial-text {
+  font-size: 0.84rem;
+  color: #E2D4C8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.curatorial-props-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.curatorial-prop-item {
+  background: rgba(10, 7, 6, 0.6);
+  border: 1px solid var(--border-ancient);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.prop-title {
+  font-size: 0.65rem;
+  color: var(--color-sandstone);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.prop-val {
+  font-size: 0.8rem;
+  color: #FFF;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.museum-trivia-box {
+  background: rgba(233, 196, 106, 0.1);
+  border-left: 3px solid var(--color-gold);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+}
+
+.museum-trivia-box h5 {
+  font-family: var(--font-serif);
+  font-size: 0.82rem;
+  color: var(--color-gold);
+  margin: 0 0 3px 0;
+}
+
+.museum-trivia-box p {
+  font-size: 0.78rem;
+  color: #E8DACF;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Modal Footer */
+.museum-modal-footer {
+  padding: 14px 24px;
+  background: rgba(16, 11, 9, 0.9);
+  border-top: 1px solid var(--border-ancient);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.discover-action-btn {
+  background: linear-gradient(135deg, var(--color-gold), #C9A048);
+  border: none;
+  color: #120E0C;
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 9px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.discover-action-btn:hover {
+  background: #FFF;
+  box-shadow: 0 4px 15px rgba(233, 196, 106, 0.6);
+  transform: translateY(-1px);
+}

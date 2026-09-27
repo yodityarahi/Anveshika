@@ -1,0 +1,445 @@
+/* Bharat Quest - Indus Valley Civilization Story Introduction Theater (Phase 4) */
+
+.story-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 7, 6, 0.92);
+  backdrop-filter: blur(12px);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.story-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.story-theater-card {
+  background: radial-gradient(circle at 50% 30%, #251B16 0%, #17110E 70%, #0F0A08 100%);
+  border: 2px solid var(--border-gold);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 1040px;
+  max-height: 92vh;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(233, 196, 106, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transform: scale(0.96) translateY(10px);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.story-modal-overlay.active .story-theater-card {
+  transform: scale(1) translateY(0);
+}
+
+/* Theater Top Header */
+.story-header-bar {
+  padding: 16px 24px;
+  background: rgba(18, 13, 11, 0.85);
+  border-bottom: 1px solid var(--border-ancient);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.story-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.story-civ-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(233, 196, 106, 0.12);
+  border: 1px solid var(--border-gold);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.story-scene-counter {
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  color: #FFF;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.story-header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.story-skip-btn {
+  background: transparent;
+  border: 1px solid var(--border-ancient);
+  color: var(--color-sandstone);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.story-skip-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFF;
+  border-color: var(--color-gold);
+}
+
+.story-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-sandstone);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.story-close-btn:hover {
+  color: #FFF;
+}
+
+/* Progress Bar & Chapter Steps */
+.story-progress-wrapper {
+  background: rgba(14, 10, 8, 0.95);
+  padding: 10px 24px;
+  border-bottom: 1px solid rgba(74, 58, 49, 0.4);
+}
+
+.story-progress-track {
+  width: 100%;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.story-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-terracotta), var(--color-gold));
+  border-radius: 4px;
+  transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.story-steps-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.story-step-dot {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  opacity: 0.45;
+  transition: all 0.25s ease;
+}
+
+.story-step-dot:hover {
+  opacity: 0.85;
+}
+
+.story-step-dot.active {
+  opacity: 1;
+}
+
+.step-dot-pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-gold);
+  background: #251B16;
+  transition: all 0.25s ease;
+}
+
+.story-step-dot.active .step-dot-pip {
+  background: var(--color-gold);
+  box-shadow: 0 0 10px var(--color-gold);
+  transform: scale(1.2);
+}
+
+.story-step-dot.completed .step-dot-pip {
+  background: var(--color-patina);
+  border-color: var(--color-patina);
+}
+
+.step-dot-label {
+  font-size: 0.68rem;
+  color: var(--color-sandstone);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.story-step-dot.active .step-dot-label {
+  color: #FFF;
+  font-weight: 700;
+}
+
+/* Scene Body Viewport */
+.story-viewport {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.story-scene-card {
+  display: grid;
+  grid-template-columns: 42% 58%;
+  gap: 28px;
+  align-items: center;
+  min-height: 440px;
+  animation: sceneFadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes sceneFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Left Column: Visual Stage */
+.story-visual-stage {
+  background: radial-gradient(circle at 40% 30%, #2A1F1A 0%, #150F0D 100%);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 8px 24px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 380px;
+}
+
+.story-illustration-svg {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.6));
+}
+
+.story-visual-topic-pill {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(18, 14, 12, 0.85);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+  padding: 3px 10px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+/* Right Column: Narrative & Pedagogy */
+.story-narrative-stage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+
+.story-period-tag {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--color-gold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.story-scene-title {
+  font-family: var(--font-serif);
+  font-size: 1.7rem;
+  color: #FFF;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.story-scene-subtitle {
+  font-size: 0.92rem;
+  color: var(--color-sandstone);
+  font-weight: 600;
+  margin-top: -6px;
+}
+
+.story-narrative-text {
+  font-size: 0.94rem;
+  color: #E6D8CE;
+  line-height: 1.6;
+  background: rgba(0, 0, 0, 0.25);
+  border-left: 3px solid var(--color-terracotta);
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+}
+
+.story-narrative-text strong {
+  color: var(--color-gold);
+}
+
+/* Curiosity Fact Box */
+.story-curiosity-box {
+  background: rgba(42, 157, 143, 0.12);
+  border: 1px solid var(--color-patina);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.curiosity-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.curiosity-content {
+  font-size: 0.8rem;
+  color: #CDE8E4;
+  line-height: 1.4;
+}
+
+.curiosity-content strong {
+  color: #FFF;
+  font-family: var(--font-serif);
+}
+
+/* Historical Evidence vs. Gameplay Distinction Badge */
+.story-distinction-badge {
+  background: rgba(192, 90, 62, 0.12);
+  border: 1px dashed rgba(233, 196, 106, 0.5);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.74rem;
+  color: var(--color-sandstone);
+  line-height: 1.4;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.distinction-icon {
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+/* Theater Footer Controls */
+.story-footer-bar {
+  padding: 14px 24px;
+  background: rgba(16, 12, 10, 0.9);
+  border-top: 1px solid var(--border-ancient);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.story-footer-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.story-hint-keys {
+  font-size: 0.72rem;
+  color: var(--color-sandstone);
+  opacity: 0.7;
+}
+
+.story-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Grand Enter City Button */
+.enter-city-hero-btn {
+  background: linear-gradient(135deg, var(--color-gold), #D4A373);
+  color: #120E0C !important;
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: 1px solid #FFF;
+  box-shadow: 0 0 20px rgba(233, 196, 106, 0.5);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  animation: enterPulse 2.5s infinite ease-in-out;
+}
+
+.enter-city-hero-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 28px rgba(233, 196, 106, 0.8);
+}
+
+@keyframes enterPulse {
+  0%, 100% { box-shadow: 0 0 16px rgba(233, 196, 106, 0.4); }
+  50% { box-shadow: 0 0 28px rgba(233, 196, 106, 0.75); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 820px) {
+  .story-scene-card {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .story-visual-stage {
+    min-height: 220px;
+    padding: 12px;
+  }
+  .story-scene-title {
+    font-size: 1.35rem;
+  }
+  .story-step-dot .step-dot-label {
+    display: none;
+  }
+}

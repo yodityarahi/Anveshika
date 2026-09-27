@@ -1,0 +1,65 @@
+﻿/* Bharat Quest - Ancient Indian Theme Styling */
+:root {
+  /* Color Palette */
+  --color-terracotta: #C05A3E;
+  --color-terracotta-dark: #913B24;
+  --color-sandstone: #D4A373;
+  --color-sandstone-light: #FAEDCD;
+  --color-sandstone-dark: #A97A48;
+  --color-lapis: #1D3557;
+  --color-lapis-light: #457B9D;
+  --color-patina: #2A9D8F;
+  --color-gold: #E9C46A;
+  --color-gold-glow: rgba(233, 196, 106, 0.35);
+  
+  /* Surfaces */
+  --bg-dark: #120E0C;
+  --bg-surface: #1E1714;
+  --bg-surface-elevated: #2A211D;
+  --bg-card: rgba(42, 33, 29, 0.85);
+  --border-ancient: #4A3A31;
+  --border-gold: rgba(233, 196, 106, 0.4);
+
+  /* Typography */
+  --font-serif: 'Cinzel', serif, Georgia;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Transitions */
+  --transition-fast: 0.18s ease;
+  --transition-normal: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(192, 90, 62, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(42, 157, 143, 0.08) 0%, transparent 40%),
+    linear-gradient(180deg, #16110E 0%, #100C0A 100%);
+  color: #EDE2D8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-ancient);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sandstone-dark);
+}
