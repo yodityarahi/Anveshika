@@ -74,9 +74,9 @@
 
 .city-filter-btn.active {
   background: var(--color-gold);
-  color: #120E0C;
+  color: #0B1325;
   border-color: #FFF;
-  box-shadow: 0 0 10px rgba(233, 196, 106, 0.4);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
 }
 
 /* Exploration Progress Pill */
@@ -84,7 +84,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(18, 14, 12, 0.9);
+  background: rgba(11, 19, 37, 0.9);
   border: 1px solid var(--border-gold);
   padding: 6px 16px;
   border-radius: 20px;
@@ -331,7 +331,7 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: radial-gradient(circle, #3D2D26 0%, #1E1714 100%);
+  background: radial-gradient(circle, #1E293B 0%, #0F172A 100%);
   border: 1.5px solid var(--color-gold);
   display: flex;
   align-items: center;
@@ -496,7 +496,7 @@
 
 .inspect-action-btn:hover {
   background: var(--color-gold);
-  color: #120E0C;
+  color: #0B1325;
 }
 
 .inspect-action-btn.examined {
@@ -508,7 +508,7 @@
 
 /* Related Quests Box */
 .inspector-quests-box {
-  background: rgba(22, 17, 14, 0.85);
+  background: var(--bg-card);
   border: 1px solid var(--border-ancient);
   border-radius: 10px;
   padding: 16px;

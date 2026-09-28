@@ -288,7 +288,7 @@ class BharatMuseumController {
         <!-- Header Bar -->
         <div class="museum-header-bar">
           <div class="museum-header-left">
-            <h2><span>🏺</span> Living Virtual Museum of Ancient Bharat</h2>
+            <h2><span>🏺</span> Living Virtual Museum of Ancient India</h2>
             <p>Explore authentic excavated relics from Mohenjo-daro, Harappa, Lothal, and Chanhudaro housed in curatorial vitrines.</p>
           </div>
           <div class="museum-progress-meter">

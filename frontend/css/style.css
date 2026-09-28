@@ -1,28 +1,32 @@
-﻿/* Bharat Quest - Ancient Indian Theme Styling */
+/* Anveshika - Royal Indian Heritage Theme Styling */
 :root {
-  /* Color Palette */
-  --color-terracotta: #C05A3E;
-  --color-terracotta-dark: #913B24;
-  --color-sandstone: #D4A373;
-  --color-sandstone-light: #FAEDCD;
-  --color-sandstone-dark: #A97A48;
-  --color-lapis: #1D3557;
-  --color-lapis-light: #457B9D;
-  --color-patina: #2A9D8F;
-  --color-gold: #E9C46A;
-  --color-gold-glow: rgba(233, 196, 106, 0.35);
+  /* Color Palette - Royal Indian Heritage */
+  --color-terracotta: #E05638;
+  --color-terracotta-dark: #B83E24;
+  --color-sandstone: #D4AF37;
+  --color-sandstone-light: #F8F5EE;
+  --color-sandstone-dark: #A18320;
+  --color-lapis: #1E293B;
+  --color-lapis-light: #38BDF8;
+  --color-patina: #2DD4BF;
+  --color-gold: #D4AF37;
+  --color-gold-glow: rgba(212, 175, 55, 0.35);
   
-  /* Surfaces */
-  --bg-dark: #120E0C;
-  --bg-surface: #1E1714;
-  --bg-surface-elevated: #2A211D;
-  --bg-card: rgba(42, 33, 29, 0.85);
-  --border-ancient: #4A3A31;
-  --border-gold: rgba(233, 196, 106, 0.4);
+  /* Surfaces - Royal Slate & Navy Sapphire */
+  --bg-dark: #0B1325;
+  --bg-surface: #0F172A;
+  --bg-surface-elevated: #162036;
+  --bg-card: rgba(22, 32, 54, 0.92);
+  --border-ancient: rgba(212, 175, 55, 0.22);
+  --border-gold: rgba(212, 175, 55, 0.5);
 
   /* Typography */
   --font-serif: 'Cinzel', serif, Georgia;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Text Colors */
+  --text-primary: #F8F5EE;
+  --text-muted: #94A3B8;
 
   /* Transitions */
   --transition-fast: 0.18s ease;
@@ -39,10 +43,10 @@ body {
   font-family: var(--font-sans);
   background-color: var(--bg-dark);
   background-image: 
-    radial-gradient(circle at 15% 20%, rgba(192, 90, 62, 0.12) 0%, transparent 40%),
-    radial-gradient(circle at 85% 80%, rgba(42, 157, 143, 0.08) 0%, transparent 40%),
-    linear-gradient(180deg, #16110E 0%, #100C0A 100%);
-  color: #EDE2D8;
+    radial-gradient(circle at 15% 20%, rgba(224, 86, 56, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(45, 212, 191, 0.08) 0%, transparent 40%),
+    linear-gradient(180deg, #0B1325 0%, #0F172A 100%);
+  color: #F8F5EE;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -61,5 +65,5 @@ body {
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-sandstone-dark);
+  background: var(--color-gold);
 }

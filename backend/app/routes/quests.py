@@ -542,12 +542,10 @@ def get_quest_detail(quest_id: str):
     if quest_id not in QUESTS_CATALOG:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Quest '{quest_id}' not found in Bharat Quest catalog."
+            detail=f"Quest '{quest_id}' not found in Anveshika catalog."
         )
     
     quest = QUESTS_CATALOG[quest_id].copy()
-    # We omit the exact solution from the response payload for secure grading,
-    # or keep challenge structures intact for interactive rendering
     safe_quest = {k: v for k, v in quest.items() if k != "solution"}
     return safe_quest
 
@@ -555,7 +553,7 @@ def get_quest_detail(quest_id: str):
 def submit_quest_solution(quest_id: str, payload: QuestSubmitRequest):
     """
     Validate player's quest challenge solution, award XP/Seals,
-    unlock artifacts & badges, and persist all progress directly into MongoDB.
+    unlock artifacts & badges, and persist all progress directly into MongoDB / state.
     """
     if quest_id not in QUESTS_CATALOG:
         raise HTTPException(status_code=404, detail=f"Quest '{quest_id}' not found.")
@@ -564,10 +562,10 @@ def submit_quest_solution(quest_id: str, payload: QuestSubmitRequest):
     submission = payload.submission
     db = db_manager.get_db()
     
-    clean_user = payload.username.strip()
+    clean_user = (payload.username or "Arjun").strip()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_user}$", "$options": "i"}})
     if not user:
-        raise HTTPException(status_code=404, detail=f"Player '{clean_user}' not found.")
+        user = db_manager.ensure_user(clean_user)
 
     stats = user.get("stats", {})
     already_completed = quest_id in stats.get("completed_quests", [])
@@ -643,6 +641,7 @@ def submit_quest_solution(quest_id: str, payload: QuestSubmitRequest):
 
     if not is_correct:
         db["users"].update_one({"_id": user["_id"]}, {"$set": {"stats": stats}})
+        db_manager.save_state()
         return QuestSubmitResponse(
             success=False,
             is_correct=False,
@@ -669,6 +668,7 @@ def submit_quest_solution(quest_id: str, payload: QuestSubmitRequest):
             stats.setdefault("discovered_artifacts", []).append(art_reward["id"])
             
     db["users"].update_one({"_id": user["_id"]}, {"$set": {"stats": stats}})
+    db_manager.save_state()
     user["stats"] = stats
 
     artifact_obj = ArtifactReward(**quest["artifact_reward"]) if quest.get("artifact_reward") else None

@@ -11,7 +11,7 @@ class BharatQuestApp {
   }
 
   async init() {
-    console.log("Initializing Bharat Quest Prototype (Phase 5 Active)...");
+    console.log("Initializing Anveshika: Interactive Living Museum of Indian Heritage...");
     this.setupTabs();
     if (window.mapController) {
       window.mapController.init();
@@ -105,7 +105,7 @@ class BharatQuestApp {
 
   async initUserSession() {
     // Check if user is stored in localStorage
-    const savedUsername = localStorage.getItem('bq_username') || 'Arjun';
+    const savedUsername = localStorage.getItem('anveshika_username') || localStorage.getItem('bq_username') || 'Arjun';
     try {
       this.logConsole(`Loading player profile: "${savedUsername}" from MongoDB...`);
       const profile = await api.getProfile(savedUsername);
@@ -166,6 +166,7 @@ class BharatQuestApp {
     
     this.state.previousLevel = newLevel;
     this.state.user = userData;
+    localStorage.setItem('anveshika_username', userData.username);
     localStorage.setItem('bq_username', userData.username);
     this.renderHUD(userData);
     this.renderDashboard(userData);

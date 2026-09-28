@@ -48,13 +48,13 @@ def _extract_player_telemetry(user_doc: dict) -> dict:
 @router.get("/recommendations/{username}")
 def get_quest_recommendations(username: str):
     """
-    Recommends the next most suitable Indus Valley quest using Scikit-Learn NearestNeighbors.
+    Recommends the next most suitable quest using Content Matching / Nearest Neighbors.
     """
     db = db_manager.get_db()
-    clean_username = username.strip()
+    clean_username = (username or "Arjun").strip()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_username}$", "$options": "i"}})
     if not user:
-        raise HTTPException(status_code=404, detail=f"Player '{clean_username}' not found.")
+        user = db_manager.ensure_user(clean_username)
 
     stats = user.get("stats", {})
     return quest_recommender.recommend(stats)
@@ -65,10 +65,10 @@ def get_adaptive_difficulty(username: str):
     Classifies player interaction telemetry and recommends dynamic difficulty: Easy, Medium, or Hard.
     """
     db = db_manager.get_db()
-    clean_username = username.strip()
+    clean_username = (username or "Arjun").strip()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_username}$", "$options": "i"}})
     if not user:
-        raise HTTPException(status_code=404, detail=f"Player '{clean_username}' not found.")
+        user = db_manager.ensure_user(clean_username)
 
     telemetry = _extract_player_telemetry(user)
     return difficulty_classifier.classify(telemetry)
@@ -76,13 +76,13 @@ def get_adaptive_difficulty(username: str):
 @router.get("/learning-progress/{username}")
 def get_learning_progress(username: str):
     """
-    Generates an explainable 5-pillar Harappan Knowledge Matrix and learning progress analysis.
+    Generates an explainable 5-pillar Knowledge Matrix and learning progress analysis.
     """
     db = db_manager.get_db()
-    clean_username = username.strip()
+    clean_username = (username or "Arjun").strip()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_username}$", "$options": "i"}})
     if not user:
-        raise HTTPException(status_code=404, detail=f"Player '{clean_username}' not found.")
+        user = db_manager.ensure_user(clean_username)
 
     stats = user.get("stats", {})
     return progress_analyzer.analyze(stats)
@@ -93,10 +93,10 @@ def get_ai_dashboard(username: str):
     Unified AI Personalization Dashboard endpoint for frontend display.
     """
     db = db_manager.get_db()
-    clean_username = username.strip()
+    clean_username = (username or "Arjun").strip()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_username}$", "$options": "i"}})
     if not user:
-        raise HTTPException(status_code=404, detail=f"Player '{clean_username}' not found.")
+        user = db_manager.ensure_user(clean_username)
 
     stats = user.get("stats", {})
     telemetry = _extract_player_telemetry(user)

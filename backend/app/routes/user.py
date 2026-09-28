@@ -1,4 +1,4 @@
-﻿from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 from typing import Optional
 from backend.app.database import db_manager
@@ -17,25 +17,19 @@ class AwardXpRequest(BaseModel):
 @router.get("/profile/{username}", response_model=UserProfileResponse)
 def get_user_profile(username: str):
     db = db_manager.get_db()
-    clean_username = username.strip()
+    clean_username = (username or "Arjun").strip()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_username}$", "$options": "i"}})
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Player profile '{clean_username}' was not found in Bharat Quest."
-        )
+        user = db_manager.ensure_user(clean_username)
     return format_user_profile(user)
 
 @router.put("/profile/{username}", response_model=UserProfileResponse)
 def update_user_profile(username: str, payload: UserUpdateRequest):
     db = db_manager.get_db()
-    clean_username = username.strip()
+    clean_username = (username or "Arjun").strip()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_username}$", "$options": "i"}})
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Player profile '{clean_username}' not found."
-        )
+        user = db_manager.ensure_user(clean_username)
     
     update_fields = {}
     if payload.age is not None:
@@ -47,6 +41,7 @@ def update_user_profile(username: str, payload: UserUpdateRequest):
         
     if update_fields:
         db["users"].update_one({"_id": user["_id"]}, {"$set": update_fields})
+        db_manager.save_state()
         user.update(update_fields)
         
     return format_user_profile(user)
@@ -57,10 +52,10 @@ def award_player_progress(username: str, payload: AwardXpRequest):
     Simulate or award game progress (XP, tokens, badges, quests, artifacts).
     """
     db = db_manager.get_db()
-    clean_username = username.strip()
+    clean_username = (username or "Arjun").strip()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_username}$", "$options": "i"}})
     if not user:
-        raise HTTPException(status_code=404, detail="Player not found.")
+        user = db_manager.ensure_user(clean_username)
     
     stats = user.get("stats", {})
     stats["xp"] = stats.get("xp", 0) + payload.xp_to_add
@@ -76,5 +71,6 @@ def award_player_progress(username: str, payload: AwardXpRequest):
         stats.setdefault("discovered_artifacts", []).append(payload.artifact_to_add)
         
     db["users"].update_one({"_id": user["_id"]}, {"$set": {"stats": stats}})
+    db_manager.save_state()
     user["stats"] = stats
     return format_user_profile(user)

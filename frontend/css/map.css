@@ -1,7 +1,7 @@
 /* Bharat Quest - Interactive Ancient India Map Styling */
 
 .map-wrapper {
-  background: radial-gradient(circle at 40% 35%, #241A14 0%, #150F0D 70%, #0D0908 100%);
+  background: radial-gradient(circle at 40% 35%, #162036 0%, #0F172A 70%, #0B1325 100%);
   border: 2px solid var(--border-gold);
   border-radius: 14px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
@@ -63,8 +63,8 @@
 }
 
 .legend-dot.locked {
-  background: #4A3A31;
-  border: 1px solid #776052;
+  background: #1E293B;
+  border: 1px solid #334155;
 }
 
 @keyframes pulseGold {
@@ -77,7 +77,7 @@
 .map-canvas-container {
   width: 100%;
   position: relative;
-  background: linear-gradient(135deg, rgba(20, 14, 11, 0.95), rgba(12, 9, 8, 0.95));
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(11, 19, 37, 0.95));
   border: 1px solid var(--border-ancient);
   border-radius: 10px;
   min-height: 520px;
@@ -131,15 +131,15 @@
 }
 
 .map-region.locked-region {
-  fill: rgba(30, 23, 20, 0.45);
-  stroke: #4A3A31;
+  fill: rgba(15, 23, 42, 0.5);
+  stroke: rgba(212, 175, 55, 0.25);
   stroke-width: 1.5;
   stroke-dasharray: 4, 3;
 }
 
 .map-region.locked-region:hover {
-  fill: rgba(45, 34, 30, 0.7);
-  stroke: #776052;
+  fill: rgba(22, 32, 54, 0.7);
+  stroke: rgba(212, 175, 55, 0.5);
 }
 
 /* Rivers */
@@ -259,7 +259,7 @@
 .ivc-era-badge {
   display: inline-block;
   background: var(--color-gold);
-  color: #120E0C;
+  color: #0B1325;
   font-weight: 800;
   font-size: 0.75rem;
   padding: 3px 10px;
@@ -326,7 +326,7 @@
 }
 
 .dashboard-hero-card {
-  background: linear-gradient(135deg, rgba(35, 27, 23, 0.95), rgba(20, 15, 13, 0.98));
+  background: linear-gradient(135deg, rgba(22, 32, 54, 0.95), rgba(15, 23, 42, 0.98));
   border: 1.5px solid var(--border-gold);
   border-radius: 14px;
   padding: 22px 26px;
@@ -364,13 +364,13 @@
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background: radial-gradient(circle, #3D2D26 0%, #1E1714 100%);
+  background: radial-gradient(circle, #1E293B 0%, #0F172A 100%);
   border: 2px solid var(--color-gold);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2.2rem;
-  box-shadow: 0 0 16px rgba(233, 196, 106, 0.35);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.35);
   animation: floatAvatar 4s ease-in-out infinite;
 }
 
@@ -384,12 +384,12 @@
   bottom: -4px;
   right: -4px;
   background: var(--color-gold);
-  color: #120E0C;
+  color: #0B1325;
   font-size: 0.65rem;
   font-weight: 800;
   padding: 2px 7px;
   border-radius: 10px;
-  border: 1px solid #120E0C;
+  border: 1px solid #0B1325;
 }
 
 .dashboard-player-meta h2 {
@@ -406,7 +406,7 @@
 .dashboard-archetype-pill {
   font-size: 0.75rem;
   color: var(--color-gold);
-  background: rgba(233, 196, 106, 0.12);
+  background: rgba(212, 175, 55, 0.12);
   border: 1px solid var(--border-gold);
   padding: 2px 10px;
   border-radius: 12px;
@@ -424,7 +424,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  background: rgba(18, 14, 12, 0.65);
+  background: rgba(11, 19, 37, 0.7);
   padding: 12px 20px;
   border-radius: 12px;
   border: 1px solid var(--border-ancient);
@@ -473,7 +473,7 @@
 }
 
 .dash-stat-card {
-  background: rgba(28, 22, 19, 0.92);
+  background: var(--bg-card);
   border: 1px solid var(--border-ancient);
   border-radius: 10px;
   padding: 14px 16px;

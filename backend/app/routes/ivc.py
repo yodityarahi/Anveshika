@@ -151,7 +151,7 @@ def list_civilizations():
             "status": "locked",
             "region": "Sapta-Sindhu & Upper Gangetic Plains",
             "description": "Composition of the Vedas, Painted Grey Ware ceramics, iron metallurgy, and philosophical treatises.",
-            "lock_reason": "Locked in Prototype • Coming in Bharat Quest Expansion Pack",
+            "lock_reason": "Locked in Prototype • Coming in Anveshika Expansion Pack",
             "color": "#9381FF"
         },
         {
@@ -162,7 +162,7 @@ def list_civilizations():
             "status": "locked",
             "region": "Central & Eastern Bharat (Pataliputra)",
             "description": "Chanakya's Arthashastra, Ashokan edicts, grand stone pillars, and diplomatic embassies across the ancient world.",
-            "lock_reason": "Locked in Prototype • Coming in Bharat Quest Expansion Pack",
+            "lock_reason": "Locked in Prototype • Coming in Anveshika Expansion Pack",
             "color": "#38B000"
         },
         {
@@ -173,7 +173,7 @@ def list_civilizations():
             "status": "locked",
             "region": "Gangetic Heartland & Malwa",
             "description": "Aryabhata's astronomical treatises, discovery of decimal zero, Kalidasa's poetry, and Ajanta frescoes.",
-            "lock_reason": "Locked in Prototype • Coming in Bharat Quest Expansion Pack",
+            "lock_reason": "Locked in Prototype • Coming in Anveshika Expansion Pack",
             "color": "#FFB703"
         },
         {
@@ -184,7 +184,7 @@ def list_civilizations():
             "status": "locked",
             "region": "Southern Peninsula & Coromandel Coast",
             "description": "Monumental living granite temples, maritime trade across Southeast Asia, and lost-wax bronze sculptures.",
-            "lock_reason": "Locked in Prototype • Coming in Bharat Quest Expansion Pack",
+            "lock_reason": "Locked in Prototype • Coming in Anveshika Expansion Pack",
             "color": "#FB8500"
         }
     ]

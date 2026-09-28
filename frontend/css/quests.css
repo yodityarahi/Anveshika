@@ -100,14 +100,14 @@
 }
 
 .quest-filter-btn:hover {
-  background: rgba(42, 33, 29, 0.9);
+  background: rgba(22, 32, 54, 0.9);
   color: var(--color-gold);
   border-color: var(--border-gold);
 }
 
 .quest-filter-btn.active {
   background: var(--color-gold);
-  color: #120E0C;
+  color: #0B1325;
   border-color: var(--color-gold);
   font-weight: 700;
 }
@@ -655,7 +655,7 @@
   height: 32px;
   border-radius: 50%;
   background: var(--color-gold);
-  color: #120E0C;
+  color: #0B1325;
   font-family: var(--font-serif);
   font-weight: 800;
   display: flex;
@@ -684,7 +684,7 @@
 }
 
 .drainage-move-btn {
-  background: rgba(42, 33, 29, 0.8);
+  background: rgba(22, 32, 54, 0.8);
   border: 1px solid var(--border-ancient);
   color: #FFF;
   width: 32px;
@@ -700,7 +700,7 @@
 
 .drainage-move-btn:hover:not(:disabled) {
   background: var(--color-gold);
-  color: #120E0C;
+  color: #0B1325;
 }
 
 .drainage-move-btn:disabled {

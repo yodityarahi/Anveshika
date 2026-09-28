@@ -1,5 +1,5 @@
 /**
- * Bharat Quest - Centralized API Service Wrapper
+ * Anveshika - Centralized API Service Wrapper
  */
 class ApiService {
   constructor(baseUrl = '') {
@@ -37,6 +37,26 @@ class ApiService {
   // Health Check
   async getHealth() {
     return this.request('/api/health');
+  }
+
+  async checkHealth() {
+    try {
+      return await this.request('/health');
+    } catch {
+      return await this.request('/api/health');
+    }
+  }
+
+  // Serverless resilient player profile creation
+  async createPlayerProfile(username, age = 14, avatar = "🧑‍🎓", archetype = "Town Architect", password = "pass") {
+    try {
+      return await this.request('/create-player-profile', {
+        method: 'POST',
+        body: JSON.stringify({ username, age, avatar, archetype, password })
+      });
+    } catch (e) {
+      return await this.register({ username, age, avatar, archetype, password });
+    }
   }
 
   // Auth & Profile
@@ -101,13 +121,24 @@ class ApiService {
   }
 
   async submitQuest(questId, username, submission) {
-    return this.request(`/api/quests/${encodeURIComponent(questId)}/submit`, {
-      method: 'POST',
-      body: JSON.stringify({
-        username: username,
-        submission: submission
-      })
-    });
+    try {
+      return await this.request('/submit-quest', {
+        method: 'POST',
+        body: JSON.stringify({
+          quest_id: questId,
+          username: username,
+          submission: submission
+        })
+      });
+    } catch (e) {
+      return await this.request(`/api/quests/${encodeURIComponent(questId)}/submit`, {
+        method: 'POST',
+        body: JSON.stringify({
+          username: username,
+          submission: submission
+        })
+      });
+    }
   }
 
   // Museum Artifacts

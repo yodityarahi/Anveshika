@@ -128,7 +128,7 @@
 .player-level {
   font-size: 0.68rem;
   background: var(--color-gold);
-  color: #120E0C;
+  color: #0B1325;
   font-weight: 800;
   padding: 1px 6px;
   border-radius: 4px;
@@ -710,7 +710,7 @@
 
 .age-chip.active {
   background: var(--color-gold);
-  color: #120E0C;
+  color: #0B1325;
   border-color: var(--color-gold);
   font-weight: 800;
 }

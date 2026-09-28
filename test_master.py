@@ -39,6 +39,10 @@ def run_master_suite():
     print("\n>>> [PHASE 2] Player Profile, Badges & Gamification")
     test_user = "PriyaHarappan"
     
+    from backend.app.database import db_manager
+    db_manager.get_db()["users"].delete_many({"username": {"$regex": f"^{test_user}$", "$options": "i"}})
+    db_manager.save_state()
+
     # Register
     reg_resp = client.post("/api/auth/register", json={
         "username": test_user,
@@ -349,7 +353,18 @@ def run_master_suite():
     assert sim_resp.json()["adaptive_difficulty"]["recommended_difficulty"] == "Hard"
     print("  [PASS] Interactive AI Simulation Sandbox: accurately predicted 'Hard' mode")
 
-    # 6. Frontend UI Elements & Assets
+    # 6. Heritage Guide Chatbot API
+    chat_resp = client.post("/api/ai/heritage-guide/chat", json={
+        "message": "tell me about the unicorn seal",
+        "username": test_user
+    })
+    assert chat_resp.status_code == 200
+    chat_data = chat_resp.json()
+    assert "reply" in chat_data
+    assert "did_you_know" in chat_data
+    print("  [PASS] Heritage Guide Chatbot API: dynamic educational response validated")
+
+    # 7. Frontend UI Elements & Assets
     ai_requirements = [
         "dashAiRecommendationContainer", "dashAiDifficultyContainer",
         "dashKnowledgeMatrixContainer", "simAccuracyInput",

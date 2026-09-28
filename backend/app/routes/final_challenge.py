@@ -67,14 +67,11 @@ def submit_final_challenge(req: FinalChallengeSubmitRequest):
     Evaluates player decisions across all 6 core historical pillars, awards XP and the
     'Indus Valley Explorer' capstone achievement badge, and saves the final result in MongoDB.
     """
-    clean_username = req.username.strip()
+    clean_username = (req.username or "Arjun").strip()
     db = db_manager.get_db()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_username}$", "$options": "i"}})
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Player '{clean_username}' not found. Please register or sign in first."
-        )
+        user = db_manager.ensure_user(clean_username)
 
     user_stats = user.get("stats", {})
     total_score = 0
@@ -161,6 +158,7 @@ def submit_final_challenge(req: FinalChallengeSubmitRequest):
             }
         }
     )
+    db_manager.save_state()
 
     # Hydrate badges details
     hydrated_badges = []
@@ -215,14 +213,11 @@ def get_final_challenge_status(username: str):
     """
     Checks if a player has taken the Final Challenge and returns their completion profile and score.
     """
-    clean_username = username.strip()
+    clean_username = (username or "Arjun").strip()
     db = db_manager.get_db()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_username}$", "$options": "i"}})
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Player '{clean_username}' not found."
-        )
+        user = db_manager.ensure_user(clean_username)
 
     final_challenge = user.get("final_challenge")
     user_stats = user.get("stats", {})

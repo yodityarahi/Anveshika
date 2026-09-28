@@ -1,2 +1,2 @@
-"""Bharat Quest: An Interactive Living Museum (SIH Problem: 26208)"""
-__version__ = "1.0.0"
+"""Anveshika: Interactive Living Museum of Indian Heritage (SIH Problem: 26208)"""
+__version__ = "2.0.0"

@@ -69,13 +69,10 @@ def get_player_gamification_status(username: str):
     XP math, level tiers, badge unlock states with progress bars, and unlockable perks.
     """
     db = db_manager.get_db()
-    clean_username = username.strip()
+    clean_username = (username or "Arjun").strip()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_username}$", "$options": "i"}})
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Player '{clean_username}' was not found."
-        )
+        user = db_manager.ensure_user(clean_username)
     
     stats = user.get("stats", {})
     xp = stats.get("xp", 150)
@@ -96,6 +93,7 @@ def get_player_gamification_status(username: str):
     
     # Persist synced stats
     db["users"].update_one({"_id": user["_id"]}, {"$set": {"stats": stats}})
+    db_manager.save_state()
     
     hydrated = hydrate_badges(stats["badges"], stats=stats)
     
@@ -122,16 +120,13 @@ def record_location_exploration(payload: ExploreLocationRequest):
     """
     Records an ancient city sector exploration.
     Strictly prevents duplicate XP rewards! Awards +75 XP on first visit,
-    evaluates level progression, badge unlock triggers, and persists to MongoDB.
+    evaluates level progression, badge unlock triggers, and persists to MongoDB / state.
     """
     db = db_manager.get_db()
-    clean_username = payload.username.strip()
+    clean_username = (payload.username or "Arjun").strip()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_username}$", "$options": "i"}})
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Player '{clean_username}' was not found."
-        )
+        user = db_manager.ensure_user(clean_username)
         
     loc_id = payload.location_id.strip()
     loc_name = VALID_LOCATIONS.get(loc_id, loc_id.replace("_", " ").title())
@@ -225,10 +220,10 @@ def evaluate_player_gamification(username: str):
     Manually triggers badge and level progression evaluation, saving any newly unlocked achievements.
     """
     db = db_manager.get_db()
-    clean_username = username.strip()
+    clean_username = (username or "Arjun").strip()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_username}$", "$options": "i"}})
     if not user:
-        raise HTTPException(status_code=404, detail="Player not found.")
+        user = db_manager.ensure_user(clean_username)
         
     stats = user.get("stats", {})
     old_badges = set(stats.get("badges", []))
@@ -243,6 +238,7 @@ def evaluate_player_gamification(username: str):
     stats["progress_percentage"] = overall_prog["overall_percentage"]
     
     db["users"].update_one({"_id": user["_id"]}, {"$set": {"stats": stats}})
+    db_manager.save_state()
     
     return {
         "username": user["username"],

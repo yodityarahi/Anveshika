@@ -47,6 +47,7 @@ def format_user_profile(user_doc: dict, token: str = None) -> UserProfileRespons
             {"_id": user_doc["_id"]},
             {"$set": {"stats": stats_data}}
         )
+        db_manager.save_state()
         
     stats = UserStats(**stats_data)
     badges_details = [BadgeInfo(**b) for b in hydrate_badges(stats.badges, stats=stats_data)]
@@ -81,7 +82,7 @@ def register_user(payload: UserRegisterRequest):
         )
     
     now_str = datetime.utcnow().isoformat() + "Z"
-    session_token = f"bq_{uuid4().hex[:16]}"
+    session_token = f"anveshika_{uuid4().hex[:16]}"
     
     initial_stats = {
         "xp": 150,
@@ -109,6 +110,7 @@ def register_user(payload: UserRegisterRequest):
     }
     
     users_col.insert_one(new_user)
+    db_manager.save_state()
     return format_user_profile(new_user, token=session_token)
 
 @router.post("/login", response_model=UserProfileResponse)
@@ -134,11 +136,12 @@ def login_user(payload: UserLoginRequest):
     
     # Update last login & refresh token
     now_str = datetime.utcnow().isoformat() + "Z"
-    token = user.get("session_token") or f"bq_{uuid4().hex[:16]}"
+    token = user.get("session_token") or f"anveshika_{uuid4().hex[:16]}"
     users_col.update_one(
         {"_id": user["_id"]},
         {"$set": {"last_login_at": now_str, "session_token": token}}
     )
+    db_manager.save_state()
     user["last_login_at"] = now_str
     user["session_token"] = token
     
@@ -146,4 +149,4 @@ def login_user(payload: UserLoginRequest):
 
 @router.get("/status")
 def auth_status():
-    return {"status": "ok", "service": "Authentication & Profile System"}
+    return {"status": "ok", "service": "Anveshika Authentication & Profile System"}

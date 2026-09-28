@@ -1,4 +1,4 @@
-# Bharat Quest: An Interactive Living Museum
+# Anveshika: Interactive Living Museum of Indian Heritage
 
 **Smart India Hackathon (SIH) • Problem Statement: 26208**  
 **Theme:** Gamified Indian Heritage Learning Platform  
@@ -8,7 +8,7 @@
 
 ## 🏛️ Project Overview
 
-Bharat Quest transforms the textbook-based learning of ancient Indian history into an immersive, interactive living museum and quest-driven exploration game designed for students aged 10–18.
+Anveshika transforms the textbook-based learning of ancient Indian history into an immersive, interactive living museum and quest-driven exploration game designed for students aged 10–18.
 
 ### Core Gameplay Loop
 **Explore → Interact → Solve → Learn → Earn → Collect → Unlock**
@@ -56,14 +56,14 @@ You will receive live JSON diagnostics detailing the server and database status:
 ```json
 {
   "status": "healthy",
-  "app_name": "Bharat Quest: An Interactive Living Museum",
-  "version": "1.0.0",
+  "app_name": "Anveshika: Interactive Living Museum of Indian Heritage",
+  "version": "2.0.0",
   "sih_problem": "26208",
   "civilization": "Indus Valley Civilization (IVC)",
   "database": {
     "status": "healthy",
     "connected": true,
-    "engine": "mongomock (In-Memory Fallback)"
+    "engine": "mongomock (In-Memory Fallback with /tmp state persistence)"
   }
 }
 ```
@@ -117,16 +117,16 @@ Bharat_quest/
 
 ## 🧭 Phase 3 Feature Showcase: Dashboard & Interactive Map
 
-1. **Main Bharat Quest Dashboard**:
+1. **Main Anveshika Dashboard**:
    * **Explorer Identity**: Live Player Name, animated Avatar ring, and Specialization Archetype badge.
    * **Explorer Level & Rank**: Dynamically calculated title (from *Bronze-Age Novice* to *Harappan Legend*).
    * **XP Progress Bar**: Animated ratio bar showing current XP vs. level ceiling.
-   * **Completed Quests Counter**: Live tracking of historical missions solved (out of 8).
-   * **Artifacts Collected Counter**: Live tracking of excavated museum relics (out of 10).
+   * **Completed Quests Counter**: Live tracking of historical missions solved (out of 5).
+   * **Artifacts Collected Counter**: Live tracking of excavated museum relics (out of 8).
    * **Badges of Honor Counter**: Tracking of unlocked hallmarks (out of 8).
    * **Overall Heritage Progress %**: Comprehensive metric weighted across level, quests, artifacts, and badges.
 
-2. **Interactive National Heritage Map (Ancient Bharat)**:
+2. **Interactive National Heritage Map (Ancient India)**:
    * **Active Civilization Spotlight**: The **Indus Valley Civilization** is rendered with a pulsing golden contour and patterned terrain fill.
    * **Future Scalability Previews**: Later historical eras (Vedic Realm, Mauryan Empire, Gupta Classical Age, Imperial Chola Realm) are rendered with dashed borders and locked badges.
    * **Hydrological River Lifelines**: Vivid paths for the Indus (Sindhu), Ghaggar-Hakra (Saraswati paleochannel), Ganga, Yamuna, and Narmada.

@@ -1,4 +1,4 @@
-﻿import os
+import os
 import sys
 
 # Ensure UTF-8 output encoding for Windows command line compatibility
@@ -17,7 +17,7 @@ from backend.app.config import settings
 
 if __name__ == "__main__":
     print("=" * 60)
-    print(f"[BHARAT QUEST] {settings.APP_NAME}")
+    print(f"[ANVESHIKA] {settings.APP_NAME}")
     print(f"[CIVILIZATION] Focus: {settings.CIVILIZATION}")
     print(f"[SERVER URL]   http://{settings.HOST}:{settings.PORT}")
     print(f"[HEALTH CHECK] http://{settings.HOST}:{settings.PORT}/api/health")

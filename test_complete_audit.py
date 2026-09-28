@@ -41,6 +41,10 @@ def run_complete_audit():
     audit_user = "KavyaExplorer"
     audit_results = {}
 
+    from backend.app.database import db_manager
+    db_manager.get_db()["users"].delete_many({"username": {"$regex": f"^{audit_user}$", "$options": "i"}})
+    db_manager.save_state()
+
     # -------------------------------------------------------------------------
     # STEP 1: REGISTRATION & PROFILE INITIALIZATION
     # -------------------------------------------------------------------------

@@ -341,9 +341,9 @@
 }
 
 .badge-filter-btn.active, .badge-filter-btn:hover {
-  background: var(--color-terracotta-gold, #E9C46A);
-  color: #120E0C;
-  border-color: var(--color-terracotta-gold, #E9C46A);
+  background: var(--color-gold, #D4AF37);
+  color: #0B1325;
+  border-color: var(--color-gold, #D4AF37);
   font-weight: 700;
 }
 
@@ -531,8 +531,8 @@
 }
 
 .milestone-step.achieved .milestone-lvl-circle {
-  background: var(--color-terracotta-gold, #E9C46A);
-  color: #120E0C;
+  background: var(--color-gold, #D4AF37);
+  color: #0B1325;
 }
 
 .milestone-details {

@@ -2,6 +2,18 @@
   "version": 2,
   "rewrites": [
     {
+      "source": "/create-player-profile",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/submit-quest",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/health",
+      "destination": "/api/index.py"
+    },
+    {
       "source": "/api",
       "destination": "/api/index.py"
     },

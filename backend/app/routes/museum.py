@@ -214,7 +214,7 @@ def get_artifact_detail(
     if artifact_id not in ARTIFACTS_CATALOG:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Artifact '{artifact_id}' was not found in Bharat Quest catalog."
+            detail=f"Artifact '{artifact_id}' was not found in Anveshika catalog."
         )
     
     art_data = ARTIFACTS_CATALOG[artifact_id]
@@ -237,7 +237,7 @@ def discover_artifact(artifact_id: str, payload: ArtifactDiscoverRequest):
     """
     Discover an artifact:
     1. Check if already discovered (prevent duplicate rewards).
-    2. If new: award XP, add to MongoDB player profile, and unlock in museum.
+    2. If new: award XP, add to player profile, and unlock in museum.
     """
     if artifact_id not in ARTIFACTS_CATALOG:
         raise HTTPException(status_code=404, detail=f"Artifact '{artifact_id}' not found.")
@@ -245,10 +245,10 @@ def discover_artifact(artifact_id: str, payload: ArtifactDiscoverRequest):
     art_data = ARTIFACTS_CATALOG[artifact_id]
     db = db_manager.get_db()
     
-    clean_user = payload.username.strip()
+    clean_user = (payload.username or "Arjun").strip()
     user = db["users"].find_one({"username": {"$regex": f"^{clean_user}$", "$options": "i"}})
     if not user:
-        raise HTTPException(status_code=404, detail=f"Player '{clean_user}' not found.")
+        user = db_manager.ensure_user(clean_user)
 
     stats = user.get("stats", {})
     discovered_list = stats.get("discovered_artifacts", [])
@@ -266,7 +266,7 @@ def discover_artifact(artifact_id: str, payload: ArtifactDiscoverRequest):
             collection_size=len(ARTIFACTS_CATALOG)
         )
 
-    # New Discovery: Award XP & Save to MongoDB
+    # New Discovery: Award XP & Save to State
     xp_to_award = art_data.get("xp_reward", 75)
     tokens_to_award = 5
     stats["xp"] = stats.get("xp", 0) + xp_to_award
@@ -275,6 +275,7 @@ def discover_artifact(artifact_id: str, payload: ArtifactDiscoverRequest):
     stats["discovered_artifacts"] = discovered_list
 
     db["users"].update_one({"_id": user["_id"]}, {"$set": {"stats": stats}})
+    db_manager.save_state()
 
     art_model = ArtifactModel(**art_data, discovered=True)
     return ArtifactDiscoverResponse(
